@@ -376,7 +376,7 @@ module.exports = function (grunt) {
       'clean:server',
       'coffee:dist',
       'compass:server',
-      'livereload-start',
+      // 'livereload-start',
       'connect:livereload',
       // 'open',
       'watch'
@@ -410,7 +410,7 @@ module.exports = function (grunt) {
     'coffee',
     'compass:dist',
     'copy',
-    'livereload-start',
+    // 'livereload-start',
     'watch'
   ]);
 
