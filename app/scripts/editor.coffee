@@ -24,11 +24,19 @@
 		$('#debug').text $('#editor').html()
 	toggleFormatBlock: (tag)->
 		el = @getSelectedElement()
+		window.e = el
 		console.log el
-		if el.is tag
-			(new Command('formatBlock', 'p') ).run()
-		else
-			(new Command('formatBlock', tag) ).run()
+		if el.attr 'name'
+			if el.is tag
+				# (new Command('formatBlock', 'p') ).run()
+				newEl = $('<p>').html el.html()
+				el.after(newEl)
+				el.remove()
+			else
+				# (new Command('formatBlock', tag) ).run()
+				newEl = $("<#{tag}>").html el.html()
+				el.after(newEl)
+				el.remove()
 	handleKeyDown: (e)->
 		# debug
 		$('#debug-keydown').text e.keyCode
