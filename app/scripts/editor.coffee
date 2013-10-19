@@ -10,7 +10,8 @@
 		$('.selection').text sel.getRangeAt(0).toString()
 		sel
 	getSelectedElement: ->
-		$(@selection().getRangeAt(0).commonAncestorContainer).parent()
+		el = $(@selection().getRangeAt(0).commonAncestorContainer)
+		return if el[0].nodeType == 3 then el.parent() else el
 	clearStatus: ->
 		$('.debug-status').addClass 'hidden'
 		status.cmd = status.ctrl = status.alt = status.shift = status.empty = false
