@@ -5,6 +5,12 @@ class Editor
 		alt: false
 		shift: false
 		empty: false
+	selection: ->
+		sel = window.getSelection()
+		$('.selection').text sel.getRangeAt(0).toString()
+		sel
+	clearStatus: ->
+		status.cmd = status.ctrl = status.alt = status.shift = status.empty = false
 	update: ->
 		$('#debug').text $('#editor').html()
 	handleKeyDown: (e)->
@@ -12,6 +18,11 @@ class Editor
 		$('#debug-keydown').text e.keyCode
 
 		switch e.keyCode
+			when 49
+				if @status.cmd || @status.ctrl
+					document.execCommand('formatBlock', false, 'h1')
+					e.preventDefault()
+					e.stopPropagation()
 			when 16
 				@status.shift = true
 				$('.shift').removeClass('hidden')
@@ -52,6 +63,13 @@ class Editor
 		.on 'keyup', (e)=>
 			@handleKeyUp(e)
 			@update()
+		.on 'mouseup', (e)=>
+			console.log 'mouseup'
+			@selection()
+		.blur =>
+			@clearStatus()
+		.focus =>
+			@clearStatus()
 
 $(document).ready ->
 	editor = new Editor
