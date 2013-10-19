@@ -1,4 +1,4 @@
-class Editor
+@Editor = class Editor
 	status:
 		cmd: false
 		ctrl: false
@@ -10,6 +10,7 @@ class Editor
 		$('.selection').text sel.getRangeAt(0).toString()
 		sel
 	clearStatus: ->
+		$('.debug-status').addClass 'hidden'
 		status.cmd = status.ctrl = status.alt = status.shift = status.empty = false
 	update: ->
 		$('#debug').text $('#editor').html()
@@ -64,13 +65,8 @@ class Editor
 			@handleKeyUp(e)
 			@update()
 		.on 'mouseup', (e)=>
-			console.log 'mouseup'
 			@selection()
 		.blur =>
 			@clearStatus()
 		.focus =>
 			@clearStatus()
-
-$(document).ready ->
-	editor = new Editor
-	editor.init()
