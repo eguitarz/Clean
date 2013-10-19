@@ -1,4 +1,4 @@
-class Command
+@Command = class Command
 	constructor: (@name, @val)->
 
 	run: ->
