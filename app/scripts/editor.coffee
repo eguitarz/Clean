@@ -1,10 +1,16 @@
-$(document).ready ->
-	update = ->
+class Editor
+	update: ->
 		$('#debug').text $('#editor').html()
-	
-	# init
-	update()
+	handleKeyUp: (e)->
+		console.log e.keyCode
+	init: ->
+		@update()
 
-	# binding
-	$('#editor').on 'keyup', ->
-		update()
+		# binding
+		$('#editor').on 'keyup', (e)=>
+			@update()
+			@handleKeyUp(e)
+
+$(document).ready ->
+	editor = new Editor
+	editor.init()
