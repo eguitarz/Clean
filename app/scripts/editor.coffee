@@ -8,11 +8,25 @@ class Editor
 	update: ->
 		$('#debug').text $('#editor').html()
 	handleKeyDown: (e)->
+		# debug
 		$('#debug-keydown').text e.keyCode
-		console.log $('#debug-keydown').text()
+
+		switch e.keyCode
+			when 16 then @status.shift = true
+			when 17 then @status.ctrl = true
+			when 18 then @status.alt = true
+			when 91 then @status.cmd = true
+
 	handleKeyUp: (e)->
+		# debug
 		$('#debug-keyup').text e.keyCode
-		console.log e.keyCode
+
+		switch e.keyCode
+			when 16 then @status.shift = false
+			when 17 then @status.ctrl = false
+			when 18 then @status.alt = false
+			when 91 then @status.cmd = false
+
 	init: ->
 		@update()
 
