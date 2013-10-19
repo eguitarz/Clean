@@ -14,24 +14,34 @@
 		return if el[0].nodeType == 3 then el.parent() else el
 	clearStatus: ->
 		$('.debug-status').addClass 'hidden'
-		status.cmd = status.ctrl = status.alt = status.shift = status.empty = false
+		@status.cmd = @status.ctrl = @status.alt = @status.shift = @status.empty = false
+	rand: (len=4)->
+		Math.random().toString(36).substr(2,len).toUpperCase()
 	update: ->
+		self = @
+		$('p,h1,pre').not('[name]').each ->
+			$(@).attr 'name', self.rand()
 		$('#debug').text $('#editor').html()
+	toggleFormatBlock: (tag)->
+		el = @getSelectedElement()
+		console.log el
+		if el.is tag
+			(new Command('formatBlock', 'p') ).run()
+		else
+			(new Command('formatBlock', tag) ).run()
 	handleKeyDown: (e)->
 		# debug
 		$('#debug-keydown').text e.keyCode
 
 		switch e.keyCode
 			when 49
-				if @status.cmd || @status.ctrl
-					# document.execCommand('formatBlock', false, 'h1')
-					el = @getSelectedElement()
-					console.log 'selected el'
-					console.log el
-					if el.is 'h1'
-						(new Command('formatBlock', 'p') ).run()
-					else
-						(new Command('formatBlock', 'h1') ).run()
+				if @status.cmd or @status.ctrl
+					@toggleFormatBlock 'h1'
+					e.preventDefault()
+					e.stopPropagation()
+			when 50
+				if @status.cmd or @status.ctrl
+					@toggleFormatBlock 'pre'
 					e.preventDefault()
 					e.stopPropagation()
 			when 16
