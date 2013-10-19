@@ -1,6 +1,5 @@
 $(document).ready ->
 	update = ->
-		console.log '123'
 		$('#debug').text $('#editor').html()
 	
 	# init
