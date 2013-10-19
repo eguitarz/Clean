@@ -9,6 +9,8 @@
 		sel = window.getSelection()
 		$('.selection').text sel.getRangeAt(0).toString()
 		sel
+	getSelectedElement: ->
+		$(@selection().getRangeAt(0).commonAncestorContainer).parent()
 	clearStatus: ->
 		$('.debug-status').addClass 'hidden'
 		status.cmd = status.ctrl = status.alt = status.shift = status.empty = false
@@ -21,7 +23,14 @@
 		switch e.keyCode
 			when 49
 				if @status.cmd || @status.ctrl
-					document.execCommand('formatBlock', false, 'h1')
+					# document.execCommand('formatBlock', false, 'h1')
+					el = @getSelectedElement()
+					console.log 'selected el'
+					console.log el
+					if el.is 'h1'
+						(new Command('formatBlock', 'p') ).run()
+					else
+						(new Command('formatBlock', 'h1') ).run()
 					e.preventDefault()
 					e.stopPropagation()
 			when 16
@@ -61,9 +70,11 @@
 		# binding
 		$('#editor').on 'keydown', (e)=>
 			@handleKeyDown(e)
+			@update()
 		.on 'keyup', (e)=>
 			@handleKeyUp(e)
 			@update()
+			@selection()
 		.on 'mouseup', (e)=>
 			@selection()
 		.blur =>
