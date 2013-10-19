@@ -12,31 +12,46 @@ class Editor
 		$('#debug-keydown').text e.keyCode
 
 		switch e.keyCode
-			when 16 then @status.shift = true
-			when 17 then @status.ctrl = true
-			when 18 then @status.alt = true
-			when 91 then @status.cmd = true
+			when 16
+				@status.shift = true
+				$('.shift').removeClass('hidden')
+			when 17
+				@status.ctrl = true
+				$('.ctrl').removeClass('hidden')
+			when 18
+				@status.alt = true
+				$('.alt').removeClass('hidden')
+			when 91
+				@status.cmd = true
+				$('.cmd').removeClass('hidden')
 
 	handleKeyUp: (e)->
 		# debug
 		$('#debug-keyup').text e.keyCode
 
 		switch e.keyCode
-			when 16 then @status.shift = false
-			when 17 then @status.ctrl = false
-			when 18 then @status.alt = false
-			when 91 then @status.cmd = false
+			when 16
+				@status.shift = false
+				$('.shift').addClass('hidden')
+			when 17
+				@status.ctrl = false
+				$('.ctrl').addClass('hidden')
+			when 18
+				@status.alt = false
+				$('.alt').addClass('hidden')
+			when 91
+				@status.cmd = false
+				$('.cmd').addClass('hidden')
 
 	init: ->
 		@update()
 
 		# binding
-		$('#editor').on 'keyup', (e)=>
-			@update()
-			@handleKeyUp(e)
-		.on 'keydown', (e)=>
-			console.log e
+		$('#editor').on 'keydown', (e)=>
 			@handleKeyDown(e)
+		.on 'keyup', (e)=>
+			@handleKeyUp(e)
+			@update()
 
 $(document).ready ->
 	editor = new Editor
