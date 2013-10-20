@@ -1,10 +1,15 @@
 @Editor = class Editor
+	promptMessage: 'Type your article here'
 	status:
 		cmd: false
 		ctrl: false
 		alt: false
 		shift: false
 		empty: false
+	displayPrompt: ->
+		$('#editor').html "<span class=\"prompt\">#{promptMessage}</p>"
+	hidePrompt: ->
+		$('#editor').html '<p><br></p><p></p>'
 	selection: ->
 		window.getSelection() if window.getSelection
 	saveSelection: ->
