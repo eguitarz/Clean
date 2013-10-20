@@ -17,8 +17,7 @@
 		@status.cmd = @status.ctrl = @status.alt = @status.shift = @status.empty = false
 	rand: (len=4)->
 		result = ''
-		a = new Array(len)
-		( result += Math.random().toString(36).substr(2,1) ) for i in a
+		result += Math.random().toString(36).substr(2,1) for i in new Array(len)
 		result.toUpperCase()
 	update: ->
 		self = @
