@@ -104,6 +104,11 @@
 					e.stopPropagation()
 			when 50
 				if @status.cmd or @status.ctrl
+					@toggleFormatBlock 'h2'
+					e.preventDefault()
+					e.stopPropagation()
+			when 51
+				if @status.cmd or @status.ctrl
 					@toggleFormatBlock 'pre'
 					e.preventDefault()
 					e.stopPropagation()
