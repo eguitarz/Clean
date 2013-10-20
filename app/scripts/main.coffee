@@ -1,5 +1,5 @@
 $(document).ready ->
-  window.e = editor = new Editor 
+  editor = new Editor 
   	askid: (editor)->
   		status.connecting = true
   		$.ajax
