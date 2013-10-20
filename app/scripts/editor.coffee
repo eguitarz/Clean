@@ -153,7 +153,7 @@
 			@selection()
 		.on 'askid', =>
 			if @askid
-				@askid( @status ) unless @status.connecting
+				@askid( @ ) unless @status.connecting
 			else
 				@id = 'A00000'
 		.blur =>
