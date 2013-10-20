@@ -7,7 +7,7 @@
 		shift: false
 		empty: false
 	displayPrompt: ->
-		$('#editor').html "<span class=\"prompt\">#{promptMessage}</p>"
+		$('#editor').html "<span class=\"prompt\">#{@promptMessage}</p>"
 	hidePrompt: ->
 		$('#editor').html '<p><br></p><p></p>'
 	selection: ->
@@ -123,6 +123,7 @@
 
 	init: ->
 		@update()
+		@displayPrompt()
 
 		# binding
 		$('#editor').on 'keydown', (e)=>
@@ -135,6 +136,9 @@
 		.on 'mouseup', (e)=>
 			@selection()
 		.blur =>
+			@displayPrompt()
 			@clearStatus()
 		.focus =>
+			@hidePrompt()
+			@update()
 			@clearStatus()
