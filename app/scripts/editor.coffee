@@ -10,21 +10,36 @@
 	saveSelection: ->
 		sel = @selection()
 		if sel.getRangeAt && sel.rangeCount
-			@lastRange = sel.getRangeAt 0
-			$('.selection').text sel.getRangeAt(0).toString()
-		else if document.selection && document.selection.createRange
-			@lastRange = document.selection.createRange()
+			range = sel.getRangeAt 0
+			$('.selection').text range.toString()
+
+			cursorStart = document.createElement 'span'
+			cursorStart.id = 'cursorStart'
+			range.insertNode cursorStart
+			if !range.collapsed
+				cursorEnd = document.createElement 'span'
+				cursorEnd.id = 'cursorEnd'
+				range.collapse()
+				range.insertNode cursorEnd
 	restoreSelection: (range)->
-		if range
-			if window.getSelection
-				sel = @selection()
-				sel.removeAllRanges()
-				sel.addRange range
-			else if document.selection && range.select
-				range.select()
-	# getSelectedElement: ->
-	# 	el = $(@selection().getRangeAt(0).commonAncestorContainer)
-	# 	return if el[0].nodeType == 3 then el.parent() else el
+		cursorStart = document.getElementById 'cursorStart'
+		cursorEnd = document.getElementById 'cursorEnd'
+		range = document.createRange()
+		if cursorStart
+			sel = @selection()
+			if cursorEnd
+				range.setStartAfter cursorStart
+				range.setEndBefore cursorEnd
+				cursorStart.parentNode.removeChild cursorStart
+				cursorEnd.parentNode.removeChild cursorEnd
+			else
+				range.selectNode cursorStart
+			# select range
+			sel.removeAllRanges()
+			sel.addRange range
+	getSelectedElement: ->
+		el = $(@selection().getRangeAt(0).commonAncestorContainer)
+		return if el[0].nodeType == 3 then el.parent() else el
 	clearStatus: ->
 		$('.debug-status').addClass 'hidden'
 		@status.cmd = @status.ctrl = @status.alt = @status.shift = @status.empty = false
@@ -38,18 +53,20 @@
 			$(@).attr 'name', self.rand()
 		$('#debug').text $('#editor').html()
 	toggleFormatBlock: (tag)->
-
+		el = @getSelectedElement()
 		if el.attr 'name'
 			# save last ragne
-				@getSelection
+				range = @saveSelection()
 			if el.is tag
 				newEl = $('<p>').html el.html()
 				el.after(newEl)
 				el.remove()
+				@restoreSelection range, newEl[0]
 			else
 				newEl = $("<#{tag}>").html el.html()
 				el.after(newEl)
 				el.remove()
+				@restoreSelection range, newEl[0]
 	handleKeyDown: (e)->
 		# debug
 		$('#debug-keydown').text e.keyCode
