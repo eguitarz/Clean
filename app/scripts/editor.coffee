@@ -1,5 +1,5 @@
 @Editor = class Editor
-	promptMessage: 'Type your article here'
+	promptMessage: '<span class="prompt">Type your article here</span>'
 	status:
 		cmd: false
 		ctrl: false
@@ -7,8 +7,8 @@
 		shift: false
 		empty: false
 	displayPrompt: ->
-		$('#editor').html "<span class=\"prompt\">#{@promptMessage}</p>"
-	hidePrompt: ->
+		$('#editor').html @promptMessage
+	clear: ->
 		$('#editor').html '<p><br></p><p></p>'
 	selection: ->
 		window.getSelection() if window.getSelection
@@ -47,7 +47,7 @@
 		return if el[0].nodeType == 3 then el.parent() else el
 	clearStatus: ->
 		$('.debug-status').addClass 'hidden'
-		@status.cmd = @status.ctrl = @status.alt = @status.shift = @status.empty = false
+		@status.cmd = @status.ctrl = @status.alt = @status.shift = false
 	rand: (len=4)->
 		result = ''
 		result += Math.random().toString(36).substr(2,1) for i in new Array(len)
@@ -57,6 +57,8 @@
 		$('p,h1,h2,pre').not('[name]').each ->
 			$(@).attr 'name', self.rand()
 		$('#debug').text $('#editor').html()
+	checkEmpty: ->
+		@status.empty = $('#editor').text() == '' || $('#editor').html() == @promptMessage
 	toggleFormatBlock: (tag)->
 		el = @getSelectedElement()
 		if el.attr 'name'
@@ -136,9 +138,11 @@
 		.on 'mouseup', (e)=>
 			@selection()
 		.blur =>
-			@displayPrompt()
+			@checkEmpty()
+			@displayPrompt() if @status.empty
 			@clearStatus()
 		.focus =>
-			@hidePrompt()
+			@checkEmpty()
+			@clear() if @status.empty
 			@update()
 			@clearStatus()
