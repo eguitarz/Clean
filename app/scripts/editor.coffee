@@ -7,6 +7,7 @@
 		shift: false
 		empty: false
 		new: true
+		connecting: false
 	displayPrompt: ->
 		$('#editor').html @promptMessage
 	clear: ->
