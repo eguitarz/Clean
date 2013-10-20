@@ -56,7 +56,8 @@
 		result.toUpperCase()
 	update: ->
 		self = @
-		$('p,h1,h2,pre').not('[name]').each ->
+		# giving names
+		$('#editor p,h1,h2,pre').not('[name]').each ->
 			$(@).attr 'name', self.rand()
 		$('#debug').text $('#editor').html()
 	checkNew: ->
