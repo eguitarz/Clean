@@ -6,6 +6,7 @@
 		alt: false
 		shift: false
 		empty: false
+		new: true
 	displayPrompt: ->
 		$('#editor').html @promptMessage
 	clear: ->
@@ -57,6 +58,8 @@
 		$('p,h1,h2,pre').not('[name]').each ->
 			$(@).attr 'name', self.rand()
 		$('#debug').text $('#editor').html()
+	checkNew: ->
+		@status.new = false if $('#editor').text().length > 5
 	checkEmpty: ->
 		@status.empty = $('#editor').text() == '' || $('#editor').html() == @promptMessage
 	toggleFormatBlock: (tag)->
@@ -129,6 +132,7 @@
 
 		# binding
 		$('#editor').on 'keydown', (e)=>
+			@checkNew() if @status.new
 			@handleKeyDown(e)
 			@update()
 		.on 'keyup', (e)=>
