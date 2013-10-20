@@ -6,12 +6,25 @@
 		shift: false
 		empty: false
 	selection: ->
-		sel = window.getSelection()
-		$('.selection').text sel.getRangeAt(0).toString()
-		sel
-	getSelectedElement: ->
-		el = $(@selection().getRangeAt(0).commonAncestorContainer)
-		return if el[0].nodeType == 3 then el.parent() else el
+		window.getSelection() if window.getSelection
+	saveSelection: ->
+		sel = @selection()
+		if sel.getRangeAt && sel.rangeCount
+			@lastRange = sel.getRangeAt 0
+			$('.selection').text sel.getRangeAt(0).toString()
+		else if document.selection && document.selection.createRange
+			@lastRange = document.selection.createRange()
+	restoreSelection: (range)->
+		if range
+			if window.getSelection
+				sel = @selection()
+				sel.removeAllRanges()
+				sel.addRange range
+			else if document.selection && range.select
+				range.select()
+	# getSelectedElement: ->
+	# 	el = $(@selection().getRangeAt(0).commonAncestorContainer)
+	# 	return if el[0].nodeType == 3 then el.parent() else el
 	clearStatus: ->
 		$('.debug-status').addClass 'hidden'
 		@status.cmd = @status.ctrl = @status.alt = @status.shift = @status.empty = false
@@ -25,10 +38,10 @@
 			$(@).attr 'name', self.rand()
 		$('#debug').text $('#editor').html()
 	toggleFormatBlock: (tag)->
-		el = @getSelectedElement()
-		window.e = el
-		console.log el
+
 		if el.attr 'name'
+			# save last ragne
+				@getSelection
 			if el.is tag
 				newEl = $('<p>').html el.html()
 				el.after(newEl)
