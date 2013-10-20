@@ -30,12 +30,10 @@
 		console.log el
 		if el.attr 'name'
 			if el.is tag
-				# (new Command('formatBlock', 'p') ).run()
 				newEl = $('<p>').html el.html()
 				el.after(newEl)
 				el.remove()
 			else
-				# (new Command('formatBlock', tag) ).run()
 				newEl = $("<#{tag}>").html el.html()
 				el.after(newEl)
 				el.remove()
