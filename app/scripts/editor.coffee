@@ -1,4 +1,8 @@
 @Editor = class Editor
+	articleCreateURL: ''
+	articleSaveURL: ''
+	articleDeleteURL: ''
+	id: ''
 	promptMessage: '<span class="prompt">Type your article here</span>'
 	status:
 		cmd: false
@@ -59,7 +63,9 @@
 			$(@).attr 'name', self.rand()
 		$('#debug').text $('#editor').html()
 	checkNew: ->
-		@status.new = false if $('#editor').text().length > 5
+		if $('#editor').text().length > 5
+			@status.new = false
+			$('#editor').trigger 'askid'
 	checkEmpty: ->
 		@status.empty = $('#editor').text() == '' || $('#editor').html() == @promptMessage
 	toggleFormatBlock: (tag)->
@@ -125,8 +131,14 @@
 			when 91
 				@status.cmd = false
 				$('.cmd').addClass('hidden')
+	constructor: (options={})->
+		@id = options.id
+		@status.new = !@id
+		@articleCreateURL = options.articleCreateURL
+		@articleSaveURL = options.articleSaveURL
+		@articleDeleteURL = options.articleDeleteURL
 
-	init: ->
+	init: ()->
 		@update()
 		@displayPrompt()
 
@@ -141,6 +153,8 @@
 			@selection()
 		.on 'mouseup', (e)=>
 			@selection()
+		.on 'askid', ->
+			console.log 'askid'
 		.blur =>
 			@checkEmpty()
 			@displayPrompt() if @status.empty
