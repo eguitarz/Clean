@@ -49,21 +49,22 @@
 		result.toUpperCase()
 	update: ->
 		self = @
-		$('p,h1,pre').not('[name]').each ->
+		$('p,h1,h2,pre').not('[name]').each ->
 			$(@).attr 'name', self.rand()
 		$('#debug').text $('#editor').html()
 	toggleFormatBlock: (tag)->
 		el = @getSelectedElement()
-		console.log el
 		if el.attr 'name'
 			@saveSelection()
 			if el.is tag
 				newEl = $('<p>').html el.html()
+				newEl.attr 'name', el.attr 'name'
 				el.after(newEl)
 				el.remove()
 				@restoreSelection()
 			else
 				newEl = $("<#{tag}>").html el.html()
+				newEl.attr 'name', el.attr 'name'
 				el.after(newEl)
 				el.remove()
 				@restoreSelection()
