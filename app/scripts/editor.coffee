@@ -54,8 +54,9 @@
 		$('#debug').text $('#editor').html()
 	toggleFormatBlock: (tag)->
 		el = @getSelectedElement()
+		console.log el
 		if el.attr 'name'
-				@saveSelection()
+			@saveSelection()
 			if el.is tag
 				newEl = $('<p>').html el.html()
 				el.after(newEl)
@@ -66,6 +67,8 @@
 				el.after(newEl)
 				el.remove()
 				@restoreSelection()
+		else
+			document.execCommand('formatBlock', false, tag)
 	handleKeyDown: (e)->
 		# debug
 		$('#debug-keydown').text e.keyCode
