@@ -1,8 +1,4 @@
 @Editor = class Editor
-	articleCreateURL: ''
-	articleSaveURL: ''
-	articleDeleteURL: ''
-	id: ''
 	promptMessage: '<span class="prompt">Type your article here</span>'
 	status:
 		cmd: false
