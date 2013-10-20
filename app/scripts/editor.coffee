@@ -21,7 +21,7 @@
 				cursorEnd.id = 'cursorEnd'
 				range.collapse()
 				range.insertNode cursorEnd
-	restoreSelection: (range)->
+	restoreSelection: ->
 		cursorStart = document.getElementById 'cursorStart'
 		cursorEnd = document.getElementById 'cursorEnd'
 		range = document.createRange()
@@ -55,18 +55,17 @@
 	toggleFormatBlock: (tag)->
 		el = @getSelectedElement()
 		if el.attr 'name'
-			# save last ragne
-				range = @saveSelection()
+				@saveSelection()
 			if el.is tag
 				newEl = $('<p>').html el.html()
 				el.after(newEl)
 				el.remove()
-				@restoreSelection range, newEl[0]
+				@restoreSelection()
 			else
 				newEl = $("<#{tag}>").html el.html()
 				el.after(newEl)
 				el.remove()
-				@restoreSelection range, newEl[0]
+				@restoreSelection()
 	handleKeyDown: (e)->
 		# debug
 		$('#debug-keydown').text e.keyCode
