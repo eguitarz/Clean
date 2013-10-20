@@ -56,6 +56,14 @@
 		result.toUpperCase()
 	update: ->
 		self = @
+		#transform divs to ps
+		@saveSelection()
+		$('#editor div').not('[name]').each ->
+			el = $('<p>')
+			el.html $(@).html()
+			$(@).after(el)
+			$(@).remove()
+		@restoreSelection()
 		# giving names
 		$('#editor p,h1,h2,pre').not('[name]').each ->
 			$(@).attr 'name', self.rand()
