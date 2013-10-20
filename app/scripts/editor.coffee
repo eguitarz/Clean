@@ -16,7 +16,10 @@
 		$('.debug-status').addClass 'hidden'
 		@status.cmd = @status.ctrl = @status.alt = @status.shift = @status.empty = false
 	rand: (len=4)->
-		Math.random().toString(36).substr(2,len).toUpperCase()
+		result = ''
+		a = new Array(len)
+		( result += Math.random().toString(36).substr(2,1) ) for i in a
+		result.toUpperCase()
 	update: ->
 		self = @
 		$('p,h1,pre').not('[name]').each ->
