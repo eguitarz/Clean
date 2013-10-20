@@ -131,6 +131,7 @@
 	constructor: (options={})->
 		@id = options.id
 		@status.new = !@id
+		@askid = options.askid
 		@articleCreateURL = options.articleCreateURL
 		@articleSaveURL = options.articleSaveURL
 		@articleDeleteURL = options.articleDeleteURL
@@ -151,7 +152,10 @@
 		.on 'mouseup', (e)=>
 			@selection()
 		.on 'askid', ->
-			console.log 'askid'
+			if @askid
+				@askid( @status ) unless @status.connecting
+			else
+				@id = 'A00000'
 		.blur =>
 			@checkEmpty()
 			@displayPrompt() if @status.empty
