@@ -151,7 +151,7 @@
 			@selection()
 		.on 'mouseup', (e)=>
 			@selection()
-		.on 'askid', ->
+		.on 'askid', =>
 			if @askid
 				@askid( @status ) unless @status.connecting
 			else
