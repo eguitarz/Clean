@@ -16,10 +16,12 @@ header
 
 #editor
 	// display: inline-flex
-	margin-top: 20px
-	border: 1px solid #000
+	position: relative
+	padding-top: 20px
+	// border: 1px solid #000
 	-webkit-flex: 3 1 50%
 	outline: 0
+	z-index: 10
 
 #status-bar
 	text-align: right
@@ -29,3 +31,8 @@ header
 	width: 100%
 	cursor: default
 	pointer-events: none
+
+#insertion
+	position: absolute
+	border-bottom: 1px solid green
+	width: 50%

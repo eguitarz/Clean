@@ -72,9 +72,10 @@
 	bindTo: (jqel)->
 		jqel.on 'mousemove', (e)->
 			parentOffset = $(@).parent().offset()
-
 			thisOffset = $(@).offset()
-			console.log "x:#{e.pageX - thisOffset.left} , y:#{e.pageY - thisOffset.top}"
+			height = $(@).outerHeight()
+			if thisOffset.top + height - e.pageY < 30
+				$('#insertion').css 'top',  thisOffset.top - parentOffset.top + height - 15
 	update: ->
 		self = @
 		# giving names
