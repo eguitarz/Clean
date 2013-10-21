@@ -67,8 +67,14 @@
 			$(@).after(el)
 			$(@).remove()
 		@restoreSelection()
-	assignNewNameToCurrentSelectedElement: ->
-		@getSelectedElement().attr 'name', @rand()
+	assignNameAttribute: (jqel)->
+		jqel.attr 'name', @rand()
+	bindTo: (jqel)->
+		jqel.on 'mousemove', (e)->
+			parentOffset = $(@).parent().offset()
+
+			thisOffset = $(@).offset()
+			console.log "x:#{e.pageX - thisOffset.left} , y:#{e.pageY - thisOffset.top}"
 	update: ->
 		self = @
 		# giving names
@@ -166,7 +172,8 @@
 		switch e.keyCode
 			when 13
 				@divsToPs()
-				@assignNewNameToCurrentSelectedElement()
+				@assignNameAttribute @getSelectedElement()
+				@bindTo @getSelectedElement()
 			when 16
 				@status.shift = false
 				$('.shift').addClass('hidden')
@@ -188,7 +195,10 @@
 		@articleDeleteURL = options.articleDeleteURL
 
 	init: ()->
-		$('#editor').html '<p><br></p>'
+		self = @
+		$('#editor').html '<p><br></p>' if @status.new
+		$('#editor').children().each ->
+			self.bindTo $(@)
 		@update()
 		@checkTitleEmpty()
 		@checkEmpty()
@@ -212,6 +222,9 @@
 					item.name
 				$.each attributes, (i, key)=>
 					$(@).removeAttr(key)
+			self = @
+			$(pasteElement).children().each ->
+				@bindTo $(@)
 			document.execCommand 'insertHtml', false, $(pasteElement).text()
 		.blur =>
 			@updateTitlePrompt(false)
