@@ -24,8 +24,6 @@
 		sel = @selection()
 		if sel.getRangeAt && sel.rangeCount
 			range = sel.getRangeAt 0
-			# $('.selection').text range.toString()
-
 			cursorStart = document.createElement 'span'
 			cursorStart.id = 'cursorStart'
 			range.insertNode cursorStart
@@ -78,6 +76,16 @@
 			$(@).remove() if $(@).html() == ''
 		# debug
 		$('#debug').text $('#editor').html()
+	updateTitlePrompt: (clear)->
+		throw new Exception 'undefined args' if typeof clear == 'undefined'
+		@checkTitleEmpty()
+		if @status.titleEmpty
+			if clear then @clearTitle() else @displayTitlePrompt()
+	updatePrompt: (clear)->
+		throw new Exception 'undefined args' if typeof clear == 'undefined'
+		@checkEmpty()
+		if @status.empty
+			if clear then @clear() else @displayPrompt()
 	checkNew: ->
 		if $('#editor').text().length > 5
 			@status.new = false
@@ -180,19 +188,24 @@
 		@checkEmpty()
 		@displayTitlePrompt() if @status.titleEmpty
 		@displayPrompt() if @status.empty
+		@bindEditorTitleEvents()
+		@bindEditorEvents()
 
-		# binding
+	bindEditorTitleEvents:->
 		$('#editor-title').on 'keydown', (e)=>
 			@handleTitleKeyDown(e)
 		.on 'keyup', (e)=>
 			@handleTitleKeyUp(e)
 		.blur =>
-			@checkTitleEmpty()
-			@displayTitlePrompt() if @status.titleEmpty
+			# @checkTitleEmpty()
+			# @displayTitlePrompt() if @status.titleEmpty
+			@updateTitlePrompt(false)
 		.focus =>
-			@checkTitleEmpty()
-			@clearTitle() if @status.titleEmpty
+			# @checkTitleEmpty()
+			# @clearTitle() if @status.titleEmpty
+			@updateTitlePrompt(true)
 
+	bindEditorEvents: ->
 		$('#editor').on 'keydown', (e)=>
 			@checkNew() if @status.new
 			@handleKeyDown(e)
@@ -209,11 +222,13 @@
 			else
 				@id = 'A00000'
 		.blur =>
-			@checkEmpty()
-			@displayPrompt() if @status.empty
+			# @checkEmpty()
+			# @displayPrompt() if @status.empty
+			@updatePrompt(false)
 			@clearStatus()
 		.focus =>
-			@checkEmpty()
-			@clear() if @status.empty
+			# @checkEmpty()
+			# @clear() if @status.empty
+			@updatePrompt(true)
 			@update()
 			@clearStatus()
