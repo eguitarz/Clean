@@ -58,8 +58,7 @@
 		result = ''
 		result += Math.random().toString(36).substr(2,1) for i in new Array(len)
 		result.toUpperCase()
-	update: ->
-		self = @
+	divsToPs: ->
 		#transform divs to ps
 		@saveSelection()
 		$('#editor div').not('[name]').each ->
@@ -68,6 +67,8 @@
 			$(@).after(el)
 			$(@).remove()
 		@restoreSelection()
+	update: ->
+		self = @
 		# giving names
 		$('#editor p,h1,h2,pre').not('[name]').each ->
 			$(@).attr 'name', self.rand()
@@ -161,6 +162,8 @@
 		$('#debug-keyup').text e.keyCode
 
 		switch e.keyCode
+			when 13
+				@divsToPs()
 			when 16
 				@status.shift = false
 				$('.shift').addClass('hidden')
