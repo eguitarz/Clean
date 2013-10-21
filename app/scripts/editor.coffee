@@ -244,6 +244,7 @@
 
 	bindEditorEvents: ->
 		$('#editor').on 'keydown', (e)=>
+			@hideInsertion()
 			@checkNew() if @status.new
 			@handleKeyDown(e)
 			@update()
@@ -251,8 +252,8 @@
 			@handleKeyUp(e)
 			@update()
 			@selection()
-		.on 'mouseup', (e)=>
-			@selection()
+		.on 'click', (e)->
+			$(@).focus()
 		.on 'paste', (e)=>
 			e.preventDefault()
 			raw = e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
@@ -275,6 +276,7 @@
 		.blur =>
 			@updatePrompt(false)
 			@clearStatus()
+			@hideInsertion()
 		.focus =>
 			@updatePrompt(true)
 			@update()
