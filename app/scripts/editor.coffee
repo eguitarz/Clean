@@ -1,24 +1,30 @@
 @Editor = class Editor
-	promptMessage: '<span class="prompt">Type your article here</span>'
+	titlePromptMessage: '<span class="prompt">New title</span>'
+	promptMessage: 'Type your article here'
 	status:
 		cmd: false
 		ctrl: false
 		alt: false
 		shift: false
 		empty: false
+		titleEmpty: false
 		new: true
 		connecting: false
 	displayPrompt: ->
-		$('#editor').html @promptMessage
+		$('#editor').children().first().html('<span class="prompt">'+@promptMessage+'</span>')
+	displayTitlePrompt: ->
+		$('#editor-title').html @titlePromptMessage
 	clear: ->
-		$('#editor').html '<p><br></p><p></p>'
+		$('#editor').children().first().html('<br>')
+	clearTitle: ->
+		$('#editor-title').html ''
 	selection: ->
 		window.getSelection() if window.getSelection
 	saveSelection: ->
 		sel = @selection()
 		if sel.getRangeAt && sel.rangeCount
 			range = sel.getRangeAt 0
-			$('.selection').text range.toString()
+			# $('.selection').text range.toString()
 
 			cursorStart = document.createElement 'span'
 			cursorStart.id = 'cursorStart'
@@ -67,13 +73,16 @@
 		# giving names
 		$('#editor p,h1,h2,pre').not('[name]').each ->
 			$(@).attr 'name', self.rand()
+		# debug
 		$('#debug').text $('#editor').html()
 	checkNew: ->
 		if $('#editor').text().length > 5
 			@status.new = false
 			$('#editor').trigger 'askid'
+	checkTitleEmpty: ->
+		@status.titleEmpty = $('#editor-title').text() == '' || $('#editor-title').text() == @titlePromptMessage
 	checkEmpty: ->
-		@status.empty = $('#editor').text() == '' || $('#editor').html() == @promptMessage
+		@status.empty = $('#editor').text() == '' || $('#editor').text() == @promptMessage
 	toggleFormatBlock: (tag)->
 		el = @getSelectedElement()
 		if el.attr 'name'
@@ -92,6 +101,13 @@
 				@restoreSelection()
 		else
 			document.execCommand('formatBlock', false, tag)
+	handleTitleKeyDown: (e)->
+		switch e.keyCode
+			when 13
+				e.preventDefault()
+				e.stopPropagation()
+	handleTitleKeyUp: (e)->
+		console.log 'title keyup'
 	handleKeyDown: (e)->
 		# debug
 		$('#debug-keydown').text e.keyCode
@@ -124,6 +140,10 @@
 			when 91
 				@status.cmd = true
 				$('.cmd').removeClass('hidden')
+			when 8
+				if $('#editor').html().match /^<(h1|h2|p|code) name=".{4}"><br><\/(h1|h2|p|code)><p name=".{4}"><\/p>/
+					e.preventDefault()
+					e.stopPropagation()
 
 	handleKeyUp: (e)->
 		# debug
@@ -149,12 +169,28 @@
 		@articleCreateURL = options.articleCreateURL
 		@articleSaveURL = options.articleSaveURL
 		@articleDeleteURL = options.articleDeleteURL
+		@defaultContent = '<p name="'+@rand()+'"><br></p>'
 
 	init: ()->
+		$('#editor').html @defaultContent
 		@update()
-		@displayPrompt()
+		@checkTitleEmpty()
+		@checkEmpty()
+		@displayTitlePrompt() if @status.titleEmpty
+		@displayPrompt() if @status.empty
 
 		# binding
+		$('#editor-title').on 'keydown', (e)=>
+			@handleTitleKeyDown(e)
+		.on 'keyup', (e)=>
+			@handleTitleKeyUp(e)
+		.blur =>
+			@checkTitleEmpty()
+			@displayTitlePrompt() if @status.titleEmpty
+		.focus =>
+			@checkTitleEmpty()
+			@clearTitle() if @status.titleEmpty
+
 		$('#editor').on 'keydown', (e)=>
 			@checkNew() if @status.new
 			@handleKeyDown(e)
