@@ -202,6 +202,17 @@
 			@handleTitleKeyDown(e)
 		.on 'keyup', (e)=>
 			@handleTitleKeyUp(e)
+		.on 'paste', (e)=>
+			e.preventDefault()
+			raw = e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
+			pasteElement = document.createElement 'p'
+			pasteElement.innerHTML = raw
+			$(pasteElement).find('*').each ->
+				attributes = $.map @attributes, (item)->
+					item.name
+				$.each attributes, (i, key)=>
+					$(@).removeAttr(key)
+			document.execCommand 'insertHtml', false, $(pasteElement).text()
 		.blur =>
 			@updateTitlePrompt(false)
 		.focus =>
@@ -224,12 +235,10 @@
 			pasteElement = document.createElement 'p'
 			pasteElement.innerHTML = raw
 			$(pasteElement).find('*').each ->
-				attributes = $.map(@attributes, (item)->
+				attributes = $.map @attributes, (item)->
 					item.name
-				)
-				el = $(@)
-				$.each attributes, (i, key)->
-					el.removeAttr(key)
+				$.each attributes, (i, key)=>
+					$(@).removeAttr(key)
 			result = $(pasteElement).html()
 				.replace( new RegExp('h[3-9]', 'ig'), 'h2' )
 				.removeTagsExcept(['p', 'h1', 'h2', 'a', 'br', 'pre', 'code'])
