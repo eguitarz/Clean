@@ -69,13 +69,23 @@
 		@restoreSelection()
 	assignNameAttribute: (jqel)->
 		jqel.attr 'name', @rand()
+	showInsertion: ->
+		$('#insertion').removeClass 'hidden'
+	hideInsertion: ->
+		$('#insertion').addClass 'hidden'
+	setInsertionTop: (top)->
+		$('#insertion').css 'top', top
 	bindTo: (jqel)->
+		self = @
 		jqel.on 'mousemove', (e)->
 			parentOffset = $(@).parent().offset()
 			thisOffset = $(@).offset()
 			height = $(@).outerHeight()
-			if thisOffset.top + height - e.pageY < 30
-				$('#insertion').css 'top',  thisOffset.top - parentOffset.top + height - 15
+			if thisOffset.top + height - e.pageY < 30 && thisOffset.top + height - e.pageY > 0
+				self.showInsertion()
+				self.setInsertionTop thisOffset.top - parentOffset.top + height - 15
+			else
+				self.hideInsertion()
 	update: ->
 		self = @
 		# giving names
