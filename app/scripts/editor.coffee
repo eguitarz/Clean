@@ -73,6 +73,9 @@
 		# giving names
 		$('#editor p,h1,h2,pre').not('[name]').each ->
 			$(@).attr 'name', self.rand()
+		# remove undeletable empty elements
+		$('#editor').children().each ->
+			$(@).remove() if $(@).html() == ''
 		# debug
 		$('#debug').text $('#editor').html()
 	checkNew: ->
