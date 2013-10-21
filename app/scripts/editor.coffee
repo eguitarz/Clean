@@ -197,12 +197,8 @@
 		.on 'keyup', (e)=>
 			@handleTitleKeyUp(e)
 		.blur =>
-			# @checkTitleEmpty()
-			# @displayTitlePrompt() if @status.titleEmpty
 			@updateTitlePrompt(false)
 		.focus =>
-			# @checkTitleEmpty()
-			# @clearTitle() if @status.titleEmpty
 			@updateTitlePrompt(true)
 
 	bindEditorEvents: ->
@@ -222,13 +218,9 @@
 			else
 				@id = 'A00000'
 		.blur =>
-			# @checkEmpty()
-			# @displayPrompt() if @status.empty
 			@updatePrompt(false)
 			@clearStatus()
 		.focus =>
-			# @checkEmpty()
-			# @clear() if @status.empty
 			@updatePrompt(true)
 			@update()
 			@clearStatus()
