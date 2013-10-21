@@ -67,6 +67,8 @@
 			$(@).after(el)
 			$(@).remove()
 		@restoreSelection()
+	assignNewNameToCurrentSelectedElement: ->
+		@getSelectedElement().attr 'name', @rand()
 	update: ->
 		self = @
 		# giving names
@@ -164,6 +166,7 @@
 		switch e.keyCode
 			when 13
 				@divsToPs()
+				@assignNewNameToCurrentSelectedElement()
 			when 16
 				@status.shift = false
 				$('.shift').addClass('hidden')
