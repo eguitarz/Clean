@@ -218,6 +218,19 @@
 			@selection()
 		.on 'mouseup', (e)=>
 			@selection()
+		.on 'paste', (e)=>
+			e.preventDefault()
+			raw = e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
+			pasteElement = document.createElement 'p'
+			pasteElement.innerHTML = raw
+			data = $(pasteElement)
+			# children = data.children()
+			# children.each ->
+			# 	$(this).removeAttr('style').find('*').removeAttr('style')
+			result = data.html()
+				.replace( new RegExp('h[0-9]', 'ig'), 'h1' )
+				# .clearTagsUnless(['p', 'h1', 'a', 'pre'])
+			document.execCommand 'insertHtml', false, result
 		.on 'askid', =>
 			if @askid
 				@askid( @ ) unless @status.connecting
