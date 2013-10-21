@@ -1,5 +1,5 @@
 @Editor = class Editor
-	titlePromptMessage: '<span class="prompt">New title</span>'
+	titlePromptMessage: 'New title'
 	promptMessage: 'Type your article here'
 	status:
 		cmd: false
@@ -11,9 +11,9 @@
 		new: true
 		connecting: false
 	displayPrompt: ->
-		$('#editor').children().first().html('<span class="prompt">'+@promptMessage+'</span>')
+		$('#editor').children().first().html '<span class="prompt">'+@promptMessage+'</span>'
 	displayTitlePrompt: ->
-		$('#editor-title').html @titlePromptMessage
+		$('#editor-title').html '<span class="prompt">'+@titlePromptMessage+'</span>'
 	clear: ->
 		$('#editor').children().first().html('<br>')
 	clearTitle: ->
