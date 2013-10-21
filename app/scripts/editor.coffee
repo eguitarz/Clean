@@ -223,13 +223,16 @@
 			raw = e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
 			pasteElement = document.createElement 'p'
 			pasteElement.innerHTML = raw
-			data = $(pasteElement)
-			# children = data.children()
-			# children.each ->
-			# 	$(this).removeAttr('style').find('*').removeAttr('style')
-			result = data.html()
-				.replace( new RegExp('h[0-9]', 'ig'), 'h1' )
-				# .clearTagsUnless(['p', 'h1', 'a', 'pre'])
+			$(pasteElement).find('*').each ->
+				attributes = $.map(@attributes, (item)->
+					item.name
+				)
+				el = $(@)
+				$.each attributes, (i, key)->
+					el.removeAttr(key)
+			result = $(pasteElement).html()
+				.replace( new RegExp('h[3-9]', 'ig'), 'h2' )
+				.removeTagsExcept(['p', 'h1', 'h2', 'a', 'br', 'pre', 'code'])
 			document.execCommand 'insertHtml', false, result
 		.on 'askid', =>
 			if @askid
