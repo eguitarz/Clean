@@ -169,10 +169,9 @@
 		@articleCreateURL = options.articleCreateURL
 		@articleSaveURL = options.articleSaveURL
 		@articleDeleteURL = options.articleDeleteURL
-		@defaultContent = '<p name="'+@rand()+'"><br></p>'
 
 	init: ()->
-		$('#editor').html @defaultContent
+		$('#editor').html '<p><br></p>'
 		@update()
 		@checkTitleEmpty()
 		@checkEmpty()
