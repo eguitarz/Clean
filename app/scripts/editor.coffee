@@ -252,7 +252,7 @@
 		.on 'keyup', (e)=>
 			@handleKeyUp(e)
 			@update()
-			@selection()
+			@checkEmpty()
 		.on 'click', (e)->
 			$(@).focus()
 		.on 'paste', (e)=>
