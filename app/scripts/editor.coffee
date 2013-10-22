@@ -75,17 +75,34 @@
 		$('#insertion').addClass 'hidden'
 	setInsertionTop: (top)->
 		$('#insertion').css 'top', top
+	delegateEvents: ()->
+		self = @
+		$('#editor').delegate 'h1,h2,p,pre,code', 'mousemove', (e)->
+			parentOffset = $(@).parent().offset()
+			thisOffset = $(@).offset()
+			height = $(@).outerHeight()
+			if height >= 30
+				if thisOffset.top + height - e.pageY < 30 && thisOffset.top + height - e.pageY > 0
+					self.showInsertion()
+					self.setInsertionTop thisOffset.top - parentOffset.top + height - 15
+				else
+					self.hideInsertion()
+			else
+				self.showInsertion()
 	bindTo: (jqel)->
 		self = @
 		jqel.on 'mousemove', (e)->
 			parentOffset = $(@).parent().offset()
 			thisOffset = $(@).offset()
 			height = $(@).outerHeight()
-			if thisOffset.top + height - e.pageY < 30 && thisOffset.top + height - e.pageY > 0
-				self.showInsertion()
-				self.setInsertionTop thisOffset.top - parentOffset.top + height - 15
+			if height >= 30
+				if thisOffset.top + height - e.pageY < 30 && thisOffset.top + height - e.pageY > 0
+					self.showInsertion()
+					self.setInsertionTop thisOffset.top - parentOffset.top + height - 15
+				else
+					self.hideInsertion()
 			else
-				self.hideInsertion()
+				self.showInsertion()
 	update: ->
 		self = @
 		# giving names
@@ -184,7 +201,7 @@
 			when 13
 				@divsToPs()
 				@assignNameAttribute @getSelectedElement()
-				@bindTo @getSelectedElement()
+				# @bindTo @getSelectedElement()
 			when 16
 				@status.shift = false
 				$('.shift').addClass('hidden')
@@ -208,8 +225,8 @@
 	init: ()->
 		self = @
 		$('#editor').html '<p><br></p>' if @status.new
-		$('#editor').children().each ->
-			self.bindTo $(@)
+		# $('#editor').children().each ->
+		# 	self.bindTo $(@)
 		@update()
 		@checkTitleEmpty()
 		@checkEmpty()
@@ -217,6 +234,7 @@
 		@displayPrompt() if @status.empty
 		@bindEditorTitleEvents()
 		@bindEditorEvents()
+		@delegateEvents()
 
 	bindEditorTitleEvents:->
 		$('#editor-title').on 'keydown', (e)=>
@@ -234,8 +252,8 @@
 				$.each attributes, (i, key)=>
 					$(@).removeAttr(key)
 			self = @
-			$(pasteElement).children().each ->
-				@bindTo $(@)
+			# $(pasteElement).children().each ->
+			# 	@bindTo $(@)
 			document.execCommand 'insertHtml', false, $(pasteElement).text()
 		.blur =>
 			@updateTitlePrompt(false)
