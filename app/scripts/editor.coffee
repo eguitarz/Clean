@@ -71,10 +71,8 @@
 		jqel.attr 'name', @rand()
 	showInsertion: ->
 		$('#insertion').removeClass 'hidden'
-		$('#insertion .expand-area').removeClass 'hidden'
 	hideInsertion: ->
 		$('#insertion').addClass 'hidden'
-		$('#insertion .expand-area').addClass 'hidden'
 		$('#insertion .expand-area').removeClass 'expand'
 	setInsertionTop: (top)->
 		$('#insertion').css 'top', top
