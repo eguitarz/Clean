@@ -81,6 +81,7 @@
 			parentOffset = $(@).parent().offset()
 			thisOffset = $(@).offset()
 			height = $(@).outerHeight()
+			return if self.status.empty || self.status.new
 			if height >= 30
 				if thisOffset.top + height - e.pageY < 30 && thisOffset.top + height - e.pageY > 0
 					self.showInsertion()
@@ -90,20 +91,6 @@
 			else
 				self.showInsertion()
 				self.setInsertionTop thisOffset.top - parentOffset.top + height
-	bindTo: (jqel)->
-		self = @
-		jqel.on 'mousemove', (e)->
-			parentOffset = $(@).parent().offset()
-			thisOffset = $(@).offset()
-			height = $(@).outerHeight()
-			if height >= 30
-				if thisOffset.top + height - e.pageY < 30 && thisOffset.top + height - e.pageY > 0
-					self.showInsertion()
-					self.setInsertionTop thisOffset.top - parentOffset.top + height - 15
-				else
-					self.hideInsertion()
-			else
-				self.showInsertion()
 	update: ->
 		self = @
 		# giving names
@@ -202,7 +189,6 @@
 			when 13
 				@divsToPs()
 				@assignNameAttribute @getSelectedElement()
-				# @bindTo @getSelectedElement()
 			when 16
 				@status.shift = false
 				$('.shift').addClass('hidden')
@@ -226,8 +212,6 @@
 	init: ()->
 		self = @
 		$('#editor').html '<p><br></p>' if @status.new
-		# $('#editor').children().each ->
-		# 	self.bindTo $(@)
 		@update()
 		@checkTitleEmpty()
 		@checkEmpty()
@@ -238,11 +222,11 @@
 		@delegateEvents()
 
 	bindEditorTitleEvents:->
-		$('#editor-title').delegate 'keydown', (e)=>
+		$('#editor-title').on 'keydown', (e)=>
 			@handleTitleKeyDown(e)
-		.delegate 'keyup', (e)=>
+		.on 'keyup', (e)=>
 			@handleTitleKeyUp(e)
-		.delegate 'paste', (e)=>
+		.on 'paste', (e)=>
 			e.preventDefault()
 			raw = e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
 			pasteElement = document.createElement 'p'
@@ -253,8 +237,6 @@
 				$.each attributes, (i, key)=>
 					$(@).removeAttr(key)
 			self = @
-			# $(pasteElement).children().each ->
-			# 	@bindTo $(@)
 			document.execCommand 'insertHtml', false, $(pasteElement).text()
 		.blur =>
 			@updateTitlePrompt(false)
@@ -262,18 +244,18 @@
 			@updateTitlePrompt(true)
 
 	bindEditorEvents: ->
-		$('#editor')delegate 'keydown', (e)=>
+		$('#editor').on 'keydown', (e)=>
 			@hideInsertion()
 			@checkNew() if @status.new
 			@handleKeyDown(e)
 			@update()
-		.delegate 'keyup', (e)=>
+		.on 'keyup', (e)=>
 			@handleKeyUp(e)
 			@update()
 			@selection()
-		.delegate 'click', (e)->
+		.on 'click', (e)->
 			$(@).focus()
-		.delegate 'paste', (e)=>
+		.on 'paste', (e)=>
 			e.preventDefault()
 			raw = e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
 			pasteElement = document.createElement 'p'
@@ -287,7 +269,7 @@
 				.replace( new RegExp('h[3-9]', 'ig'), 'h2' )
 				.removeTagsExcept(['p', 'h1', 'h2', 'a', 'br', 'pre', 'code'])
 			document.execCommand 'insertHtml', false, result
-		.delegate 'askid', =>
+		.on 'askid', =>
 			if @askid
 				@askid( @ ) unless @status.connecting
 			else
