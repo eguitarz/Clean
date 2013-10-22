@@ -38,13 +38,14 @@ $green: rgba(90, 170, 130, 0.9)
 	z-index: 11
 	width: 50%
 	cursor: default
+	transition: opacity 500ms, top 300ms
 	.expand-area
 		position: absolute
 		background-color: $green
 		border-bottom: 1px solid $green
 		height: 0
 		width: 100%
-		transition: opacity 500ms, height 500ms, top 300ms
+		transition: height 500ms
 		overflow: hidden
 		&.expand
 			height: 60px
