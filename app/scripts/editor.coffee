@@ -280,7 +280,7 @@
 		.blur =>
 			@updatePrompt(false)
 			@clearStatus()
-			@hideInsertion()
+			# @hideInsertion()
 		.focus =>
 			@updatePrompt(true)
 			@update()
