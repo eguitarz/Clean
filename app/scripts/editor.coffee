@@ -73,6 +73,7 @@
 		$('#insertion').removeClass 'hidden'
 	hideInsertion: ->
 		$('#insertion').addClass 'hidden'
+		$('#insertion').removeClass 'expand'
 	setInsertionTop: (top)->
 		$('#insertion').css 'top', top
 	delegateEvents: ()->
@@ -91,6 +92,9 @@
 			else
 				self.showInsertion()
 				self.setInsertionTop thisOffset.top - parentOffset.top + height
+
+		$('#insertion').delegate '.btn', 'click', (e)->
+			$(@).parent().toggleClass 'expand'
 	update: ->
 		self = @
 		# giving names
