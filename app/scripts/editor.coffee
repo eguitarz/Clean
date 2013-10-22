@@ -79,6 +79,7 @@
 	delegateEvents: ()->
 		self = @
 		$('#editor').delegate 'h1,h2,p,pre,code', 'mousemove', (e)->
+			$(@).addClass('hovered').siblings().removeClass('hovered')
 			parentOffset = $(@).parent().offset()
 			thisOffset = $(@).offset()
 			height = $(@).outerHeight()
@@ -93,8 +94,10 @@
 				self.showInsertion()
 				self.setInsertionTop thisOffset.top - parentOffset.top + height
 
-		$('#insertion').delegate '.btn', 'click', (e)->
+		# insertion add btn event
+		$('#insertion').delegate '.btn-add', 'click', (e)->
 			$('#insertion .expand-area').toggleClass 'expand'
+
 	update: ->
 		self = @
 		# giving names
