@@ -36,13 +36,18 @@ $green: rgba(90, 170, 130, 0.9)
 #insertion
 	position: absolute
 	z-index: 11
-	background-color: $green
-	border-bottom: 1px solid $green
-	height: 0
 	width: 50%
-	transition: opacity 500ms, height 500ms, top 300ms
-	&.expand
-		height: 60px
+	cursor: default
+	.expand-area
+		position: absolute
+		background-color: $green
+		border-bottom: 1px solid $green
+		height: 0
+		width: 100%
+		transition: opacity 500ms, height 500ms, top 300ms
+		overflow: hidden
+		&.expand
+			height: 60px
 	.btn-add
 		position: absolute
 		right: -25px

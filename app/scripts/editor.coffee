@@ -71,9 +71,11 @@
 		jqel.attr 'name', @rand()
 	showInsertion: ->
 		$('#insertion').removeClass 'hidden'
+		$('#insertion .expand-area').removeClass 'hidden'
 	hideInsertion: ->
 		$('#insertion').addClass 'hidden'
-		$('#insertion').removeClass 'expand'
+		$('#insertion .expand-area').addClass 'hidden'
+		$('#insertion .expand-area').removeClass 'expand'
 	setInsertionTop: (top)->
 		$('#insertion').css 'top', top
 	delegateEvents: ()->
@@ -94,8 +96,7 @@
 				self.setInsertionTop thisOffset.top - parentOffset.top + height
 
 		$('#insertion').delegate '.btn', 'click', (e)->
-			$(@).parent().toggleClass 'expand'
-			$('#insertion .btn-image').toggleClass 'hidden'
+			$('#insertion .expand-area').toggleClass 'expand'
 	update: ->
 		self = @
 		# giving names
