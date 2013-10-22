@@ -98,6 +98,11 @@
 		$('#insertion').delegate '.btn-add', 'click', (e)->
 			$('#insertion .expand-area').toggleClass 'expand'
 
+		# isertion add image event
+		$('#insertion').delegate '.btn-image', 'click', (e)->
+			$('#editor .hovered').after('<figure><img src="https://www.google.com/images/srpr/logo11w.png"></figure>')
+			self.hideInsertion()
+
 	update: ->
 		self = @
 		# giving names
