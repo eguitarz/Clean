@@ -89,6 +89,7 @@
 					self.hideInsertion()
 			else
 				self.showInsertion()
+				self.setInsertionTop thisOffset.top - parentOffset.top + height
 	bindTo: (jqel)->
 		self = @
 		jqel.on 'mousemove', (e)->
