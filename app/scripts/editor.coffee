@@ -95,6 +95,7 @@
 
 		$('#insertion').delegate '.btn', 'click', (e)->
 			$(@).parent().toggleClass 'expand'
+			$('#insertion .btn-image').toggleClass 'hidden'
 	update: ->
 		self = @
 		# giving names
