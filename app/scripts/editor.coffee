@@ -219,7 +219,6 @@
 		@displayPrompt() if @status.empty
 		@bindEditorTitleEvents()
 		@bindEditorEvents()
-		@delegateEvents()
 
 	bindEditorTitleEvents:->
 		$('#editor-title').on 'keydown', (e)=>
@@ -282,3 +281,6 @@
 			@updatePrompt(true)
 			@update()
 			@clearStatus()
+
+		# dynamic events
+		@delegateEvents()
