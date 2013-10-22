@@ -205,7 +205,9 @@
 		switch e.keyCode
 			when 13
 				@divsToPs()
-				@assignNameAttribute @getSelectedElement()
+				jqel = @getSelectedElement()
+				jqel.removeClass()
+				@assignNameAttribute jqel
 			when 16
 				@status.shift = false
 				$('.shift').addClass('hidden')
