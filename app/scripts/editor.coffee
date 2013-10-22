@@ -238,11 +238,11 @@
 		@delegateEvents()
 
 	bindEditorTitleEvents:->
-		$('#editor-title').on 'keydown', (e)=>
+		$('#editor-title').delegate 'keydown', (e)=>
 			@handleTitleKeyDown(e)
-		.on 'keyup', (e)=>
+		.delegate 'keyup', (e)=>
 			@handleTitleKeyUp(e)
-		.on 'paste', (e)=>
+		.delegate 'paste', (e)=>
 			e.preventDefault()
 			raw = e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
 			pasteElement = document.createElement 'p'
@@ -262,18 +262,18 @@
 			@updateTitlePrompt(true)
 
 	bindEditorEvents: ->
-		$('#editor').on 'keydown', (e)=>
+		$('#editor')delegate 'keydown', (e)=>
 			@hideInsertion()
 			@checkNew() if @status.new
 			@handleKeyDown(e)
 			@update()
-		.on 'keyup', (e)=>
+		.delegate 'keyup', (e)=>
 			@handleKeyUp(e)
 			@update()
 			@selection()
-		.on 'click', (e)->
+		.delegate 'click', (e)->
 			$(@).focus()
-		.on 'paste', (e)=>
+		.delegate 'paste', (e)=>
 			e.preventDefault()
 			raw = e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
 			pasteElement = document.createElement 'p'
@@ -287,7 +287,7 @@
 				.replace( new RegExp('h[3-9]', 'ig'), 'h2' )
 				.removeTagsExcept(['p', 'h1', 'h2', 'a', 'br', 'pre', 'code'])
 			document.execCommand 'insertHtml', false, result
-		.on 'askid', =>
+		.delegate 'askid', =>
 			if @askid
 				@askid( @ ) unless @status.connecting
 			else
