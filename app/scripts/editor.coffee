@@ -67,6 +67,11 @@
 			$(@).after(el)
 			$(@).remove()
 		@restoreSelection()
+	cleanAttributes: (el)->
+		attributes = $.map el.attributes, (item)->
+			item.name
+		$.each attributes, (i, key)=>
+			$(@).removeAttr(key)
 	assignNameAttribute: (jqel)->
 		jqel.attr 'name', @rand()
 	showInsertion: ->
@@ -238,16 +243,13 @@
 		.on 'keyup', (e)=>
 			@handleTitleKeyUp(e)
 		.on 'paste', (e)=>
+			self = @
 			e.preventDefault()
 			raw = e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
 			pasteElement = document.createElement 'p'
 			pasteElement.innerHTML = raw
 			$(pasteElement).find('*').each ->
-				attributes = $.map @attributes, (item)->
-					item.name
-				$.each attributes, (i, key)=>
-					$(@).removeAttr(key)
-			self = @
+				self.cleanAttributes @[0]
 			document.execCommand 'insertHtml', false, $(pasteElement).text()
 		.blur =>
 			@updateTitlePrompt(false)
