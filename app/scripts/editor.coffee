@@ -194,7 +194,8 @@
 				@status.cmd = true
 				$('.cmd').removeClass('hidden')
 			when 8
-				if $('#editor').html().match /^<(h1|h2|p|pre|code) name=".{4}"><br><\/(h1|h2|p|pre|code)>$/
+				if $('#editor').html().match /^<(h1|h2|p|pre|code) .*><br><\/(h1|h2|p|pre|code)>$/
+					console.log 'matched!!!!'
 					e.preventDefault()
 					e.stopPropagation()
 
