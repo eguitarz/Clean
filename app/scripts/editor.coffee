@@ -83,21 +83,19 @@
 		$('#insertion').css 'top', top
 	delegateEvents: ()->
 		self = @
-		$('#editor').delegate 'h1,h2,p,pre,code', 'mousemove', (e)->
+		$('#editor').delegate 'h1,h2,p,pre,code,figure', 'mousemove', (e)->
 			$(@).addClass('hovered').siblings().removeClass('hovered')
 			parentOffset = $(@).parent().offset()
 			thisOffset = $(@).offset()
 			height = $(@).outerHeight()
 			return if self.status.empty || self.status.new
-			if height >= 30
-				if thisOffset.top + height - e.pageY < 30 && thisOffset.top + height - e.pageY > 0
-					self.showInsertion()
-					self.setInsertionTop thisOffset.top - parentOffset.top + height - 15
-				else
-					self.hideInsertion()
-			else
+			showInsertion = true
+			showInsertion = false if height >= 30 && ( thisOffset.top + height - e.pageY >= 30 || thisOffset.top + height - e.pageY <= 0 )
+			if showInsertion
 				self.showInsertion()
-				self.setInsertionTop thisOffset.top - parentOffset.top + height
+				self.setInsertionTop thisOffset.top - parentOffset.top + height				
+			else
+				self.hideInsertion()
 
 		# insertion add btn event
 		$('#insertion').delegate '.btn-add', 'click', (e)->
@@ -194,8 +192,7 @@
 				@status.cmd = true
 				$('.cmd').removeClass('hidden')
 			when 8
-				if $('#editor').html().match /^<(h1|h2|p|pre|code) .*><br><\/(h1|h2|p|pre|code)>$/
-					console.log 'matched!!!!'
+				if $('#editor').html().match /^<(h1|h2|p|pre|code|figure) .*><br><\/(h1|h2|p|pre|code|figure)>$/
 					e.preventDefault()
 					e.stopPropagation()
 
