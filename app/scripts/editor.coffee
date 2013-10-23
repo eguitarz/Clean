@@ -79,6 +79,7 @@
 	hideInsertion: ->
 		$('#insertion').addClass 'hidden'
 		$('#insertion .expand-area').removeClass 'expand'
+		$('#insertion .toolbar').removeClass 'clicked'
 	setInsertionTop: (top)->
 		$('#insertion').css 'top', top
 	delegateEvents: ()->
@@ -103,8 +104,9 @@
 
 		# isertion add image event
 		$('#insertion').delegate '.btn-image', 'click', (e)->
-			$('#editor .hovered').after('<figure><img src="https://www.google.com/images/srpr/logo11w.png"></figure>')
-			self.hideInsertion()
+			# $('#editor .hovered').after('<figure><img src="https://www.google.com/images/srpr/logo11w.png"></figure>')
+			$('#insertion .toolbar').addClass 'clicked'
+			# self.hideInsertion()
 
 	update: ->
 		self = @
