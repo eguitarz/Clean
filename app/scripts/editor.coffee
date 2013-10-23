@@ -108,6 +108,10 @@
 			$('#insertion .toolbar').addClass 'clicked'
 			# self.hideInsertion()
 
+		$('#insertion').delegate '.btn-cancel', 'click', (e)->
+			$('#insertion .toolbar').removeClass 'clicked'
+			$('#insertion input').val ''
+
 	update: ->
 		self = @
 		# giving names
