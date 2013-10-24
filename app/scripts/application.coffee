@@ -4,6 +4,8 @@
 
 @Clean.ApplicationView = Ember.View.extend
   classNames: ['appl-view']
+  didInsertElement: =>
+  	@Clean.editor.init()
 
 Ember.TEMPLATES.application = Ember.Handlebars.compile '
   <header>Clean Editor</header>

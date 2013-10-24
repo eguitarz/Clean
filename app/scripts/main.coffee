@@ -6,7 +6,7 @@
   rootElement: '#application'
 console.log @Clean
 
-editor = new Editor 
+@Clean.editor = new Editor 
 	askid: (editor)->
 		status.connecting = true
 		$.ajax
@@ -18,4 +18,3 @@ editor = new Editor
 		 error: ->
 		 	console.log 'unable to ask id'
 		 	editor.status.connecting = false
-editor.init()
