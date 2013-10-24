@@ -1,7 +1,7 @@
 'use strict'
-@Yabyap = @Yabyap || {}
+@Clean = @Clean || {}
 
-@Yabyap = Ember.Application.create
+@Clean = Ember.Application.create
   LOG_TRANSITIONS: true
   rootElement: '#application'
 
