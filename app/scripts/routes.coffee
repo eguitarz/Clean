@@ -1,3 +1,1 @@
-@Clean.Router.map (->
-
-)
+@Clean.Router.map ->

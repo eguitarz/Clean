@@ -4,6 +4,7 @@
 @Clean = Ember.Application.create
   LOG_TRANSITIONS: true
   rootElement: '#application'
+console.log @Clean
 
 editor = new Editor 
 	askid: (editor)->
