@@ -68,7 +68,7 @@
 	autosave: (durationInMilliseconds=5000)->
 		(update= =>
 			setTimeout =>
-				if @id && @status.changed
+				if @id && @status.changed && @status.connecting
 					@setChanged false
 					@autosaveCallback() if @autosaveCallback
 				update()
