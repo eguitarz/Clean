@@ -25,6 +25,14 @@
 		$('#editor').children().first().html('<br>')
 	clearTitle: ->
 		$('#editor-title').html ''
+	detectChanged: ->
+			title = $('#editor-title').html()
+			content = $('#editor').html()
+			if @lastTitle != title || @lastContent != content
+				@setChanged true
+				@lastTitle = title
+				@lastContent = content
+
 	selection: ->
 		window.getSelection() if window.getSelection
 	saveSelection: ->
@@ -39,6 +47,7 @@
 				cursorEnd.id = 'cursorEnd'
 				range.collapse()
 				range.insertNode cursorEnd
+
 	restoreSelection: ->
 		cursorStart = document.getElementById 'cursorStart'
 		cursorEnd = document.getElementById 'cursorEnd'
@@ -68,9 +77,9 @@
 	autosave: (durationInMilliseconds=5000)->
 		(update= =>
 			setTimeout =>
-				if @id && @status.changed && @status.connecting
+				if @id && @status.changed && !@status.connecting
 					@setChanged false
-					@autosaveCallback() if @autosaveCallback
+					@autosaveCallback(@) if @autosaveCallback
 				update()
 			, durationInMilliseconds)()
 	divsToPs: ->
@@ -254,6 +263,7 @@
 		@id = options.id
 		@status.new = !@id
 		@askid = options.askid
+		@autosaveCallback = options.autosaveCallback
 		@articleCreateURL = options.articleCreateURL
 		@articleSaveURL = options.articleSaveURL
 		@articleDeleteURL = options.articleDeleteURL
@@ -274,6 +284,7 @@
 		$('#editor-title').on 'keydown', (e)=>
 			@handleTitleKeyDown(e)
 		.on 'keyup', (e)=>
+			@detectChanged()
 			@handleTitleKeyUp(e)
 		.on 'paste', (e)=>
 			self = @
@@ -284,6 +295,7 @@
 			$(pasteElement).find('*').each ->
 				self.cleanAttributes @[0]
 			document.execCommand 'insertHtml', false, $(pasteElement).text()
+			@setChanged true
 		.blur =>
 			@updateTitlePrompt(false)
 		.focus =>
@@ -296,6 +308,7 @@
 			@handleKeyDown(e)
 			@update()
 		.on 'keyup', (e)=>
+			@detectChanged()
 			@handleKeyUp(e)
 			@update()
 			@checkEmpty()
@@ -315,6 +328,7 @@
 				.replace( new RegExp('h[3-9]', 'ig'), 'h2' )
 				.removeTagsExcept(['p', 'h1', 'h2', 'a', 'br', 'pre', 'code'])
 			document.execCommand 'insertHtml', false, result
+			@setChanged true
 		.on 'askid', =>
 			if @askid
 				@askid( @ ) unless @status.connecting
