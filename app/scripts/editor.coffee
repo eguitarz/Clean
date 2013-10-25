@@ -10,6 +10,10 @@
 		titleEmpty: false
 		new: true
 		connecting: false
+	setConnecting: (bool)->
+		@status.connecting = bool
+	setNew: (bool)->
+		@status.new = bool
 	displayPrompt: ->
 		$('#editor').children().first().html '<span class="prompt">'+@promptMessage+'</span>'
 	displayTitlePrompt: ->
