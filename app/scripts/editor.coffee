@@ -13,6 +13,8 @@
 		changed: false
 	setConnecting: (bool)->
 		@status.connecting = bool
+	setChanged: (bool)->
+		@status.changed = bool
 	setNew: (bool)->
 		@status.new = bool
 	displayPrompt: ->
@@ -63,6 +65,14 @@
 		result = ''
 		result += Math.random().toString(36).substr(2,1) for i in new Array(len)
 		result.toUpperCase()
+	autosave: (durationInMilliseconds=5000)->
+		(update= =>
+			setTimeout =>
+				if @id && @status.changed
+					@setChanged false
+					@updateCallback() if @updateCallback
+				update()
+			, durationInMilliseconds)()
 	divsToPs: ->
 		#transform divs to ps
 		@saveSelection()
@@ -251,6 +261,7 @@
 	init: ()->
 		self = @
 		$('#editor').html '<p><br></p>' if @status.new
+		@autosave 5000
 		@update()
 		@checkTitleEmpty()
 		@checkEmpty()
