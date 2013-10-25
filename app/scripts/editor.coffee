@@ -10,6 +10,7 @@
 		titleEmpty: false
 		new: true
 		connecting: false
+		changed: false
 	setConnecting: (bool)->
 		@status.connecting = bool
 	setNew: (bool)->
