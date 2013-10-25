@@ -199,7 +199,6 @@
 				e.preventDefault()
 				e.stopPropagation()
 	handleTitleKeyUp: (e)->
-		console.log 'title keyup'
 	handleKeyDown: (e)->
 		# debug
 		$('#debug-keydown').text e.keyCode
