@@ -70,7 +70,7 @@
 			setTimeout =>
 				if @id && @status.changed
 					@setChanged false
-					@updateCallback() if @updateCallback
+					@autosaveCallback() if @autosaveCallback
 				update()
 			, durationInMilliseconds)()
 	divsToPs: ->
