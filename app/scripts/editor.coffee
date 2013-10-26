@@ -140,11 +140,9 @@
 			parentOffset = $(@).parent().offset()
 			thisOffset = $(@).offset()
 			height = $(@).outerHeight()
-			# showInsertion = true
-			# showInsertion = false if height >= 30 && ( thisOffset.top + height - e.pageY >= 30 || thisOffset.top + height - e.pageY <= 0 )
 			self.showTooltip()
 			self.setTooltipTop thisOffset.top - parentOffset.top
-		.delegate 'h1,h2,p,pre,code,figure', 'mouseleave', (e)->
+		$('body').delegate '#tooltip', 'mouseleave', (e)->
 			self.hideTooltip()
 
 		# insertion add btn event
