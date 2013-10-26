@@ -21,7 +21,14 @@ Ember.TEMPLATES.application = Ember.Handlebars.compile '
   <div class="content">
       <div class="flex-container">
           <div id="editor" contentEditable="true"></div>
-          <div id="debug"></div>
+      </div>
+      <div id="tooltip" class="hidden">
+        <ul class="left-panel">
+          <li>P</li>
+          <li>H1</li>
+          <li>H2</li>
+          <li>Q</li>
+        </ul>
       </div>
       <div id="insertion" class=" hidden">
           <div class="expand-area">

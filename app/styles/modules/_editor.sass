@@ -1,16 +1,29 @@
+$editor-width: 35%
+
 header
 	min-height: 40px
-	// width: 100%
+	width: $editor-width
+	margin: auto
 	display: block
 
+.content
+	position: relative
+	width: $editor-width
+	margin: auto
+
+#editor .hovered
+	border: 1px solid #000
+
 .flex-container
+	width: 100%
+	margin: auto
 	display: -webkit-flex
 	display: flex
 	flex-flow: row
 
 #editor-title
-	margin-top: 20px
-	width: 50%
+	margin: 20px auto 0 auto
+	width: $editor-width
 	outline: 0
 	border-bottom: 1px solid #000
 
@@ -32,7 +45,20 @@ header
 	cursor: default
 	pointer-events: none
 
-$green: rgba(90, 170, 130, 0.9)
+#tooltip
+	position: absolute
+	z-index: 11
+	width: $editor-width
+	cursor: default
+	transition: opacity 500ms
+	ul.left-panel
+		position: absolute
+		background-color: #ccc
+		width: 100px
+		left: -100px
+		li
+			display: inline-block
+
 #insertion
 	position: absolute
 	z-index: 11

@@ -118,6 +118,12 @@
 				update()
 			, durationInMilliseconds)()
 
+	showTooltip: ->
+		$('#tooltip').removeClass 'hidden'
+	hideTooltip: ->
+		$('#tooltip').addClass 'hidden'
+	setTooltipTop: (top)->
+		$('#tooltip').css 'top', top
 	showInsertion: ->
 		$('#insertion').removeClass 'hidden'
 	hideInsertion: ->
@@ -129,18 +135,23 @@
 	delegateEvents: ()->
 		self = @
 		$('#editor').delegate 'h1,h2,p,pre,code,figure', 'mousemove', (e)->
+			return if self.status.empty || self.status.new
 			$(@).addClass('hovered').siblings().removeClass('hovered')
 			parentOffset = $(@).parent().offset()
 			thisOffset = $(@).offset()
 			height = $(@).outerHeight()
-			return if self.status.empty || self.status.new
-			showInsertion = true
-			showInsertion = false if height >= 30 && ( thisOffset.top + height - e.pageY >= 30 || thisOffset.top + height - e.pageY <= 0 )
-			if showInsertion
-				self.showInsertion()
-				self.setInsertionTop thisOffset.top - parentOffset.top + height				
+			# showInsertion = true
+			# showInsertion = false if height >= 30 && ( thisOffset.top + height - e.pageY >= 30 || thisOffset.top + height - e.pageY <= 0 )
+			showTooltip = true
+			showTooltip = false if height >= 30 && ( thisOffset.top + height - e.pageY >= 30 || thisOffset.top + height - e.pageY <= 0 )
+			if showTooltip
+				self.showTooltip()
+				self.setTooltipTop thisOffset.top - parentOffset.top
+				# self.showInsertion()
+				# self.setInsertionTop thisOffset.top - parentOffset.top + height				
 			else
-				self.hideInsertion()
+				self.hideTooltip()
+				# self.hideInsertion()
 
 		# insertion add btn event
 		$('#insertion').delegate '.btn-add', 'click', (e)->
