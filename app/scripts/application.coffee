@@ -29,6 +29,9 @@ Ember.TEMPLATES.application = Ember.Handlebars.compile '
           <li>H2</li>
           <li>Q</li>
         </ul>
+        <ul class="right-panel">
+          <li>+ Append image</li>
+        </ul>
       </div>
   </div>
 '

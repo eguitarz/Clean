@@ -11,9 +11,6 @@ header
 	width: $editor-width
 	margin: auto
 
-#editor .hovered
-	border: 1px solid #000
-
 .flex-container
 	width: 100%
 	margin: auto
@@ -47,7 +44,7 @@ header
 
 #tooltip
 	position: absolute
-	z-index: 11
+	z-index: 1
 	width: 100%
 	height: 50px
 	cursor: default
@@ -55,8 +52,6 @@ header
 	ul.left-panel
 		position: absolute
 		color: #fff
-		background-color: #333
-		border-radius: 5px
 		width: 180px
 		left: -180px
 		line-height: 40px
@@ -64,6 +59,25 @@ header
 		padding: 0
 		li
 			display: inline-block
+			background-color: #333
+			border-radius: 5px
 			width: 40px
 			text-align: center
 			padding: 0
+			&:hover
+				color: #37cc62
+	ul.right-panel
+		position: absolute
+		border-radius: 5px
+		width: 120px
+		right: -120px
+		line-height: 40px
+		margin: 0
+		padding: 0
+		li
+			display: inline-block
+			width: 120px
+			text-align: center
+			padding: 0
+			&:hover
+				color: #37cc62
