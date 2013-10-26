@@ -6,7 +6,7 @@
   rootElement: '#application'
 
 @Clean.editor = new Editor 
-  askid: (editor)->
+  newPostCallback: (editor)->
     editor.setConnecting true
     $.ajax
       url: 'http://localhost:3000'

@@ -170,7 +170,7 @@
 	checkNew: ->
 		if $('#editor').text().length > 5
 			@status.new = false
-			$('#editor').trigger 'askid'
+			$('#editor').trigger 'newPostCallback'
 	checkTitleEmpty: ->
 		@status.titleEmpty = $('#editor-title').text() == '' || $('#editor-title').text() == @titlePromptMessage
 	checkEmpty: ->
@@ -261,7 +261,7 @@
 	constructor: (options={})->
 		@id = options.id
 		@status.new = !@id
-		@askid = options.askid
+		@newPostCallback = options.newPostCallback
 		@autosaveCallback = options.autosaveCallback
 		@articleCreateURL = options.articleCreateURL
 		@articleSaveURL = options.articleSaveURL
@@ -328,9 +328,9 @@
 				.removeTagsExcept(['p', 'h1', 'h2', 'a', 'br', 'pre', 'code'])
 			document.execCommand 'insertHtml', false, result
 			@setChanged true
-		.on 'askid', =>
-			if @askid
-				@askid( @ ) unless @status.connecting
+		.on 'newPostCallback', =>
+			if @newPostCallback
+				@newPostCallback( @ ) unless @status.connecting
 			else
 				@id = 'A00000'
 		.blur =>
