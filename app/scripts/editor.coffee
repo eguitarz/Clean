@@ -11,6 +11,25 @@
 		new: true
 		connecting: false
 		changed: false
+	constructor: (options={})->
+		@id = options.id
+		@status.new = !@id
+		@newPostCallback = options.newPostCallback
+		@autosaveCallback = options.autosaveCallback
+		@articleCreateURL = options.articleCreateURL
+		@articleSaveURL = options.articleSaveURL
+		@articleDeleteURL = options.articleDeleteURL
+	init: ()->
+		self = @
+		$('#editor').html '<p><br></p>' if @status.new
+		@autosave 5000
+		@update()
+		@checkTitleEmpty()
+		@checkEmpty()
+		@displayTitlePrompt() if @status.titleEmpty
+		@displayPrompt() if @status.empty
+		@bindEditorTitleEvents()
+		@bindEditorEvents()
 	setConnecting: (bool)->
 		@status.connecting = bool
 	setChanged: (bool)->
@@ -25,6 +44,29 @@
 		$('#editor').children().first().html('<br>')
 	clearTitle: ->
 		$('#editor-title').html ''
+	clearStatus: ->
+		$('.debug-status').addClass 'hidden'
+		@status.cmd = @status.ctrl = @status.alt = @status.shift = false
+	cleanAttributes: (el)->
+		attributes = $.map el.attributes, (item)->
+			item.name
+		$.each attributes, (i, key)=>
+			$(@).removeAttr(key)
+	divsToPs: ->
+		#transform divs to ps
+		@saveSelection()
+		$('#editor div').not('[name]').each ->
+			el = $('<p>')
+			el.html $(@).html()
+			$(@).after(el)
+			$(@).remove()
+		@restoreSelection()
+	assignNameAttribute: (jqel)->
+		jqel.attr 'name', @rand()
+	rand: (len=4)->
+		result = ''
+		result += Math.random().toString(36).substr(2,1) for i in new Array(len)
+		result.toUpperCase()
 	detectChanged: ->
 			title = $('#editor-title').html()
 			content = $('#editor').html()
@@ -47,7 +89,6 @@
 				cursorEnd.id = 'cursorEnd'
 				range.collapse()
 				range.insertNode cursorEnd
-
 	restoreSelection: ->
 		cursorStart = document.getElementById 'cursorStart'
 		cursorEnd = document.getElementById 'cursorEnd'
@@ -67,13 +108,7 @@
 	getSelectedElement: ->
 		el = $(@selection().getRangeAt(0).commonAncestorContainer)
 		return if el[0].nodeType == 3 then el.parent() else el
-	clearStatus: ->
-		$('.debug-status').addClass 'hidden'
-		@status.cmd = @status.ctrl = @status.alt = @status.shift = false
-	rand: (len=4)->
-		result = ''
-		result += Math.random().toString(36).substr(2,1) for i in new Array(len)
-		result.toUpperCase()
+
 	autosave: (durationInMilliseconds=5000)->
 		(update= =>
 			setTimeout =>
@@ -82,22 +117,7 @@
 					@autosaveCallback(@) if @autosaveCallback
 				update()
 			, durationInMilliseconds)()
-	divsToPs: ->
-		#transform divs to ps
-		@saveSelection()
-		$('#editor div').not('[name]').each ->
-			el = $('<p>')
-			el.html $(@).html()
-			$(@).after(el)
-			$(@).remove()
-		@restoreSelection()
-	cleanAttributes: (el)->
-		attributes = $.map el.attributes, (item)->
-			item.name
-		$.each attributes, (i, key)=>
-			$(@).removeAttr(key)
-	assignNameAttribute: (jqel)->
-		jqel.attr 'name', @rand()
+
 	showInsertion: ->
 		$('#insertion').removeClass 'hidden'
 	hideInsertion: ->
@@ -258,26 +278,6 @@
 			when 91
 				@status.cmd = false
 				$('.cmd').addClass('hidden')
-	constructor: (options={})->
-		@id = options.id
-		@status.new = !@id
-		@newPostCallback = options.newPostCallback
-		@autosaveCallback = options.autosaveCallback
-		@articleCreateURL = options.articleCreateURL
-		@articleSaveURL = options.articleSaveURL
-		@articleDeleteURL = options.articleDeleteURL
-
-	init: ()->
-		self = @
-		$('#editor').html '<p><br></p>' if @status.new
-		@autosave 5000
-		@update()
-		@checkTitleEmpty()
-		@checkEmpty()
-		@displayTitlePrompt() if @status.titleEmpty
-		@displayPrompt() if @status.empty
-		@bindEditorTitleEvents()
-		@bindEditorEvents()
 
 	bindEditorTitleEvents:->
 		$('#editor-title').on 'keydown', (e)=>
