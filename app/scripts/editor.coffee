@@ -255,7 +255,7 @@
 				@status.cmd = true
 				$('.cmd').removeClass('hidden')
 			when 8
-				if $('#editor').html().match /^<(h1|h2|p|pre|code|figure) .*><br><\/(h1|h2|p|pre|code|figure)>$/
+				if $('#editor').html().match /^<(h1|h2|p|pre|code|figure) [^>]*><br><\/(h1|h2|p|pre|code|figure)>$/
 					e.preventDefault()
 					e.stopPropagation()
 
