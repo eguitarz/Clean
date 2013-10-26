@@ -305,7 +305,7 @@
 
 	bindEditorEvents: ->
 		$('#editor').on 'keydown', (e)=>
-			@hideInsertion()
+			@hideTooltip()
 			@checkNew() if @status.new
 			@handleKeyDown(e)
 			@update()
