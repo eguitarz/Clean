@@ -30,17 +30,5 @@ Ember.TEMPLATES.application = Ember.Handlebars.compile '
           <li>Q</li>
         </ul>
       </div>
-      <div id="insertion" class=" hidden">
-          <div class="expand-area">
-              <div class="toolbar">
-                  <div class="btn btn-image">Image</div>
-                  <div class="link">
-                      <input type="text" />
-                      <div class="btn btn-cancel">X</div>
-                  </div>
-              </div>
-          </div>
-          <div class="btn btn-add">+</div>
-      </div>
   </div>
 '
