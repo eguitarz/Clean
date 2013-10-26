@@ -134,7 +134,7 @@
 		$('#insertion').css 'top', top
 	delegateEvents: ()->
 		self = @
-		$('#editor').delegate 'h1,h2,p,pre,code,figure', 'mousemove', (e)->
+		$('#editor').delegate 'h1,h2,p,pre,code,figure', 'mouseenter', (e)->
 			return if self.status.empty || self.status.new
 			$(@).addClass('hovered').siblings().removeClass('hovered')
 			parentOffset = $(@).parent().offset()
@@ -142,16 +142,10 @@
 			height = $(@).outerHeight()
 			# showInsertion = true
 			# showInsertion = false if height >= 30 && ( thisOffset.top + height - e.pageY >= 30 || thisOffset.top + height - e.pageY <= 0 )
-			showTooltip = true
-			showTooltip = false if height >= 30 && ( thisOffset.top + height - e.pageY >= 30 || thisOffset.top + height - e.pageY <= 0 )
-			if showTooltip
-				self.showTooltip()
-				self.setTooltipTop thisOffset.top - parentOffset.top
-				# self.showInsertion()
-				# self.setInsertionTop thisOffset.top - parentOffset.top + height				
-			else
-				self.hideTooltip()
-				# self.hideInsertion()
+			self.showTooltip()
+			self.setTooltipTop thisOffset.top - parentOffset.top
+		.delegate 'h1,h2,p,pre,code,figure', 'mouseleave', (e)->
+			self.hideTooltip()
 
 		# insertion add btn event
 		$('#insertion').delegate '.btn-add', 'click', (e)->
