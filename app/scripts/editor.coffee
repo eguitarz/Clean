@@ -126,14 +126,14 @@
 		$('#tooltip').addClass 'hidden'
 	setTooltipTop: (top)->
 		$('#tooltip').css 'top', top
-	showInsertion: ->
-		$('#insertion').removeClass 'hidden'
-	hideInsertion: ->
-		$('#insertion').addClass 'hidden'
-		$('#insertion .expand-area').removeClass 'expand'
-		$('#insertion .toolbar').removeClass 'clicked'
-	setInsertionTop: (top)->
-		$('#insertion').css 'top', top
+	updateTooltipStatus: (jqel)->
+		['h1', 'h2', 'pre'].forEach (tag, i)->
+			btn = $("#tooltip .left-panel li:nth-child(#{i+1})")
+			if jqel.is tag
+				console.log btn
+				btn.addClass 'toggled'
+			else
+				btn.removeClass 'toggled'
 	delegateEvents: ()->
 		self = @
 		$('#editor').delegate '> h1,h2,p,pre,code,figure', 'mouseenter', (e)->
@@ -142,6 +142,8 @@
 			parentOffset = $(@).parent().offset()
 			thisOffset = $(@).offset()
 			height = $(@).outerHeight()
+
+			self.updateTooltipStatus $(@)
 			self.showTooltip()
 			self.setTooltipTop thisOffset.top - parentOffset.top
 		.delegate '> h1,h2,p,pre,code,figure', 'mouseleave', (e)->
