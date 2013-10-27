@@ -80,6 +80,8 @@
 	saveSelection: ->
 		sel = @selection()
 		if sel.getRangeAt && sel.rangeCount
+			$('#cursorStart').remove()
+			$('#cursorEnd').remove()
 			range = sel.getRangeAt 0
 			cursorStart = document.createElement 'span'
 			cursorStart.id = 'cursorStart'
@@ -142,16 +144,23 @@
 			height = $(@).outerHeight()
 			self.showTooltip()
 			self.setTooltipTop thisOffset.top - parentOffset.top
+		.delegate '> h1,h2,p,pre,code,figure', 'mouseleave', (e)->
+			self.saveSelection()
+			self.update()
 
 		# tooltip functions
 		$('#tooltip').delegate '.left-panel li:nth-child(1)', 'click', (e)->
 			self.toggleFormatBlock $('.hovered').first(), 'h1'
+			self.update()
 		$('#tooltip').delegate '.left-panel li:nth-child(2)', 'click', (e)->
 			self.toggleFormatBlock $('.hovered').first(), 'h2'
+			self.update()
 		$('#tooltip').delegate '.left-panel li:nth-child(3)', 'click', (e)->
 			self.toggleFormatBlock $('.hovered').first(), 'pre'
+			self.update()
 		$('body').delegate '#tooltip', 'mouseleave', (e)->
 			self.hideTooltip()
+			self.update()
 
 		# insertion enter image url
 		$('#insertion').delegate 'input', 'keydown', (e)->
@@ -204,9 +213,11 @@
 				jqel.remove()
 				@restoreSelection()
 			else
+				console.log jqel.html()
 				newEl = $("<#{tag}>").html jqel.html()
 				newEl.attr 'name', jqel.attr 'name'
 				newEl.attr 'class', jqel.attr 'class'
+				console.log newEl.html()
 				jqel.after(newEl)
 				jqel.remove()
 				@restoreSelection()
