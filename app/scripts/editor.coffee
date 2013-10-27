@@ -142,6 +142,8 @@
 			height = $(@).outerHeight()
 			self.showTooltip()
 			self.setTooltipTop thisOffset.top - parentOffset.top
+		$('#tooltip').delegate '.left-panel li:nth-child(2)', 'click', (e)->
+			self.toggleFormatBlock $('.hovered').first(), 'h1'
 		$('body').delegate '#tooltip', 'mouseleave', (e)->
 			self.hideTooltip()
 
@@ -185,21 +187,20 @@
 		@status.titleEmpty = $('#editor-title').text() == '' || $('#editor-title').text() == @titlePromptMessage
 	checkEmpty: ->
 		@status.empty = $('#editor').text() == '' || $('#editor').text() == @promptMessage
-	toggleFormatBlock: (tag)->
-		el = @getSelectedElement()
-		if el.attr 'name'
+	toggleFormatBlock: (jqel, tag)->
+		if jqel.attr 'name'
 			@saveSelection()
-			if el.is tag
-				newEl = $('<p>').html el.html()
-				newEl.attr 'name', el.attr 'name'
-				el.after(newEl)
-				el.remove()
+			if jqel.is tag
+				newEl = $('<p>').html jqel.html()
+				newEl.attr 'name', jqel.attr 'name'
+				jqel.after(newEl)
+				jqel.remove()
 				@restoreSelection()
 			else
-				newEl = $("<#{tag}>").html el.html()
-				newEl.attr 'name', el.attr 'name'
-				el.after(newEl)
-				el.remove()
+				newEl = $("<#{tag}>").html jqel.html()
+				newEl.attr 'name', jqel.attr 'name'
+				jqel.after(newEl)
+				jqel.remove()
 				@restoreSelection()
 		else
 			document.execCommand('formatBlock', false, tag)
@@ -216,17 +217,17 @@
 		switch e.keyCode
 			when 49
 				if @status.cmd or @status.ctrl
-					@toggleFormatBlock 'h1'
+					@toggleFormatBlock @getSelectedElement(), 'h1'
 					e.preventDefault()
 					e.stopPropagation()
 			when 50
 				if @status.cmd or @status.ctrl
-					@toggleFormatBlock 'h2'
+					@toggleFormatBlock @getSelectedElement(), 'h2'
 					e.preventDefault()
 					e.stopPropagation()
 			when 51
 				if @status.cmd or @status.ctrl
-					@toggleFormatBlock 'pre'
+					@toggleFormatBlock @getSelectedElement(), 'pre'
 					e.preventDefault()
 					e.stopPropagation()
 			when 16
