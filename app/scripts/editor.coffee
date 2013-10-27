@@ -130,7 +130,6 @@
 		['h1', 'h2', 'pre'].forEach (tag, i)->
 			btn = $("#tooltip .left-panel li:nth-child(#{i+1})")
 			if jqel.is tag
-				console.log btn
 				btn.addClass 'toggled'
 			else
 				btn.removeClass 'toggled'
@@ -152,17 +151,16 @@
 
 		# tooltip functions
 		$('#tooltip').delegate '.left-panel li:nth-child(1)', 'click', (e)->
-			self.toggleFormatBlock $('.hovered').first(), 'h1'
-			self.update()
+			self.toggleFormatBlock $('.hovered'), 'h1'
+			self.updateTooltipStatus $('.hovered')
 		$('#tooltip').delegate '.left-panel li:nth-child(2)', 'click', (e)->
-			self.toggleFormatBlock $('.hovered').first(), 'h2'
-			self.update()
+			self.toggleFormatBlock $('.hovered'), 'h2'
+			self.updateTooltipStatus $('.hovered')
 		$('#tooltip').delegate '.left-panel li:nth-child(3)', 'click', (e)->
-			self.toggleFormatBlock $('.hovered').first(), 'pre'
-			self.update()
+			self.toggleFormatBlock $('.hovered'), 'pre'
+			self.updateTooltipStatus $('.hovered')
 		$('body').delegate '#tooltip', 'mouseleave', (e)->
 			self.hideTooltip()
-			self.update()
 
 		# insertion enter image url
 		$('#insertion').delegate 'input', 'keydown', (e)->
