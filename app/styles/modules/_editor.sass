@@ -49,35 +49,31 @@ header
 	height: 50px
 	cursor: default
 	transition: opacity 500ms
-	ul.left-panel
+	ul
 		position: absolute
+		margin: 0
+		padding: 0
+		li
+			display: inline-block
+			cursor: pointer
+			text-align: center
+			padding: 0
+	ul.left-panel
 		color: #fff
 		width: 180px
 		left: -180px
 		line-height: 40px
-		margin: 0
-		padding: 0
 		li
-			display: inline-block
 			background-color: #333
 			border-radius: 5px
 			width: 40px
-			text-align: center
-			padding: 0
 			&:hover
 				color: #37cc62
 	ul.right-panel
-		position: absolute
-		border-radius: 5px
 		width: 120px
 		right: -120px
 		line-height: 40px
-		margin: 0
-		padding: 0
 		li
-			display: inline-block
 			width: 120px
-			text-align: center
-			padding: 0
 			&:hover
 				color: #37cc62

@@ -145,19 +145,6 @@
 		$('body').delegate '#tooltip', 'mouseleave', (e)->
 			self.hideTooltip()
 
-		# insertion add btn event
-		$('#insertion').delegate '.btn-add', 'click', (e)->
-			$('#insertion .expand-area').toggleClass 'expand'
-
-		# insertion add image event
-		$('#insertion').delegate '.btn-image', 'click', (e)->
-			$('#insertion .toolbar').addClass 'clicked'
-
-		# insertion cancel image url
-		$('#insertion').delegate '.btn-cancel', 'click', (e)->
-			$('#insertion .toolbar').removeClass 'clicked'
-			$('#insertion input').val ''
-
 		# insertion enter image url
 		$('#insertion').delegate 'input', 'keydown', (e)->
 			if e.keyCode == 13
