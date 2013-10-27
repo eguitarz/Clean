@@ -134,7 +134,7 @@
 		$('#insertion').css 'top', top
 	delegateEvents: ()->
 		self = @
-		$('#editor').delegate 'h1,h2,p,pre,code,figure', 'mouseenter', (e)->
+		$('#editor').delegate '> h1,h2,p,pre,code,figure', 'mouseenter', (e)->
 			return if self.status.empty || self.status.new
 			$(@).addClass('hovered').siblings().removeClass('hovered')
 			parentOffset = $(@).parent().offset()
@@ -142,8 +142,14 @@
 			height = $(@).outerHeight()
 			self.showTooltip()
 			self.setTooltipTop thisOffset.top - parentOffset.top
-		$('#tooltip').delegate '.left-panel li:nth-child(2)', 'click', (e)->
+
+		# tooltip functions
+		$('#tooltip').delegate '.left-panel li:nth-child(1)', 'click', (e)->
 			self.toggleFormatBlock $('.hovered').first(), 'h1'
+		$('#tooltip').delegate '.left-panel li:nth-child(2)', 'click', (e)->
+			self.toggleFormatBlock $('.hovered').first(), 'h2'
+		$('#tooltip').delegate '.left-panel li:nth-child(3)', 'click', (e)->
+			self.toggleFormatBlock $('.hovered').first(), 'pre'
 		$('body').delegate '#tooltip', 'mouseleave', (e)->
 			self.hideTooltip()
 
@@ -193,12 +199,14 @@
 			if jqel.is tag
 				newEl = $('<p>').html jqel.html()
 				newEl.attr 'name', jqel.attr 'name'
+				newEl.attr 'class', jqel.attr 'class'
 				jqel.after(newEl)
 				jqel.remove()
 				@restoreSelection()
 			else
 				newEl = $("<#{tag}>").html jqel.html()
 				newEl.attr 'name', jqel.attr 'name'
+				newEl.attr 'class', jqel.attr 'class'
 				jqel.after(newEl)
 				jqel.remove()
 				@restoreSelection()

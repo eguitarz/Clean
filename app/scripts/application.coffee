@@ -24,7 +24,6 @@ Ember.TEMPLATES.application = Ember.Handlebars.compile '
       </div>
       <div id="tooltip" class="hidden">
         <ul class="left-panel">
-          <li>P</li>
           <li>H1</li>
           <li>H2</li>
           <li>Q</li>
