@@ -34,4 +34,5 @@ Ember.TEMPLATES.application = Ember.Handlebars.compile '
         </ul>
       </div>
   </div>
+  <ul id="toolpad"><li>link</li></ul>
 '

@@ -137,6 +137,10 @@
 	showToolpadOverSelection: (prefix='m')->
 		startEl = $('#'+prefix+'Start')
 		endEl = $('#'+prefix+'End')
+		top = Math.min startEl.offset().top, endEl.offset().top
+		left = ( startEl.offset().left + endEl.offset().left ) / 2
+		$('#toolpad').css 'top', top - 35
+		$('#toolpad').css 'left', left - 30
 		
 	delegateEvents: ()->
 		self = @
