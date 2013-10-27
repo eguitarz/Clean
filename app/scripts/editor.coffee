@@ -163,17 +163,8 @@
 		$('body').delegate '#tooltip', 'mouseleave', (e)->
 			self.hideTooltip()
 
-		# insertion enter image url
-		$('#insertion').delegate 'input', 'keydown', (e)->
-			if e.keyCode == 13
-				url = $('#insertion input').val()
-				$('#editor .hovered').after '<figure><img src="'+url+'"></figure>'
-				console.log $('#insertion .hovered').html()
-				$('#insertion .toolbar').removeClass 'clicked'
-				$('#insertion input').val ''
-				self.hideInsertion()
-				e.preventDefault()
-				e.stopPropagation()
+		$('body').delegate '#editor', 'click', (e)->
+			$(@).focus()
 
 	update: ->
 		self = @
