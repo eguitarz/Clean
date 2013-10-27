@@ -78,23 +78,23 @@
 
 	selection: ->
 		window.getSelection() if window.getSelection
-	saveSelection: ->
+	saveSelection: (prefix='cursor')->
 		sel = @selection()
 		if sel.getRangeAt && sel.rangeCount
-			$('#cursorStart').remove()
-			$('#cursorEnd').remove()
+			$('#'+prefix+'Start').remove()
+			$('#'+prefix+'End').remove()
 			range = sel.getRangeAt 0
 			cursorStart = document.createElement 'span'
-			cursorStart.id = 'cursorStart'
+			cursorStart.id = prefix+'Start'
 			range.insertNode cursorStart
 			if !range.collapsed
 				cursorEnd = document.createElement 'span'
-				cursorEnd.id = 'cursorEnd'
+				cursorEnd.id = prefix+'End'
 				range.collapse()
 				range.insertNode cursorEnd
-	restoreSelection: ->
-		cursorStart = document.getElementById 'cursorStart'
-		cursorEnd = document.getElementById 'cursorEnd'
+	restoreSelection: (prefix='cursor')->
+		cursorStart = document.getElementById prefix+'Start'
+		cursorEnd = document.getElementById prefix+'End'
 		range = document.createRange()
 		if cursorStart
 			sel = @selection()
@@ -134,6 +134,10 @@
 				btn.addClass 'toggled'
 			else
 				btn.removeClass 'toggled'
+	showToolpadOverSelection: (prefix='m')->
+		startEl = $('#'+prefix+'Start')
+		endEl = $('#'+prefix+'End')
+		
 	delegateEvents: ()->
 		self = @
 		$('#editor').delegate '> h1,h2,p,pre,code,figure', 'mouseenter', (e)->
@@ -147,7 +151,6 @@
 			self.showTooltip()
 			self.setTooltipTop thisOffset.top - parentOffset.top
 		.delegate '> h1,h2,p,pre,code,figure', 'mouseleave', (e)->
-			self.saveSelection()
 			self.update()
 
 		# tooltip functions
@@ -165,6 +168,16 @@
 
 		$('body').delegate '#editor', 'click', (e)->
 			$(@).focus()
+
+		# toolpad
+		$('body').delegate '#editor', 'mouseup', (e)=>
+			sel = @selection()
+			if sel.rangeCount > 0
+				range = sel.getRangeAt 0
+				unless range.collapsed
+					@saveSelection 'm'
+					@showToolpadOverSelection 'm'
+					@restoreSelection 'm'
 
 	update: ->
 		self = @
@@ -205,11 +218,9 @@
 				jqel.remove()
 				@restoreSelection()
 			else
-				console.log jqel.html()
 				newEl = $("<#{tag}>").html jqel.html()
 				newEl.attr 'name', jqel.attr 'name'
 				newEl.attr 'class', jqel.attr 'class'
-				console.log newEl.html()
 				jqel.after(newEl)
 				jqel.remove()
 				@restoreSelection()
