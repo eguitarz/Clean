@@ -14,14 +14,15 @@
 	constructor: (options={})->
 		@id = options.id
 		@status.new = !@id
+		@defaultTitle = options.title
+		@defaultContent = options.content
 		@newPostCallback = options.newPostCallback
 		@autosaveCallback = options.autosaveCallback
-		@articleCreateURL = options.articleCreateURL
-		@articleSaveURL = options.articleSaveURL
-		@articleDeleteURL = options.articleDeleteURL
 	init: ()->
 		self = @
-		$('#editor').html '<p><br></p>' if @status.new
+		$('#editor').html '<p><br></p>'
+		$('#editor-title').text @defaultTitle if @defaultTitle
+		$('#editor').html @defaultContent if @defaultContent
 		@autosave 5000
 		@update()
 		@checkTitleEmpty()
