@@ -135,12 +135,15 @@
 			else
 				btn.removeClass 'toggled'
 	showToolpadOverSelection: (prefix='m')->
+		$('#toolpad').removeClass 'hidden'
 		startEl = $('#'+prefix+'Start')
 		endEl = $('#'+prefix+'End')
 		top = Math.min startEl.offset().top, endEl.offset().top
 		left = ( startEl.offset().left + endEl.offset().left ) / 2
 		$('#toolpad').css 'top', top - 35
 		$('#toolpad').css 'left', left - 30
+	hideToolpad: ->
+		$('#toolpad').addClass 'hidden'
 		
 	delegateEvents: ()->
 		self = @
@@ -178,7 +181,9 @@
 			sel = @selection()
 			if sel.rangeCount > 0
 				range = sel.getRangeAt 0
-				unless range.collapsed
+				if range.collapsed
+					@hideToolpad()
+				else
 					@saveSelection 'm'
 					@showToolpadOverSelection 'm'
 					@restoreSelection 'm'
