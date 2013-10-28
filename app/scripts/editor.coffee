@@ -320,7 +320,10 @@
 		.blur =>
 			@updateTitlePrompt(false)
 		.focus =>
-			@updateTitlePrompt(true)
+			# prevent caret being eaten
+			setTimeout =>
+				@updateTitlePrompt(true)
+			, 0
 
 	bindEditorEvents: ->
 		$('#editor').on 'keydown', (e)=>
