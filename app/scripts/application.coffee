@@ -39,5 +39,5 @@ Ember.TEMPLATES.application = Ember.Handlebars.compile '
         </ul>
       </div>
   </div>
-  <ul id="toolpad" class="hidden"><li>link</li></ul>
+  <ul id="toolpad" class="hidden"><li>link</li><li class="non-clickable"><span class="btn cancel">X</span> <input></li></ul>
 '
