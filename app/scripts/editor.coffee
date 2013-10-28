@@ -173,8 +173,8 @@
 		$('body').delegate '#tooltip', 'mouseleave', (e)->
 			self.hideTooltip()
 
-		$('body').delegate '#editor', 'click', (e)->
-			$(@).focus()
+		# $('body').delegate '#editor', 'click', (e)->
+		# 	$('#editor').focus()
 
 		# toolpad
 		$('body').delegate '#editor', 'mouseup', (e)=>
@@ -333,8 +333,6 @@
 			@handleKeyUp(e)
 			@update()
 			@checkEmpty()
-		.on 'click', (e)->
-			$(@).focus()
 		.on 'paste', (e)=>
 			e.preventDefault()
 			raw = e.clipboardData.getData('text/html') || e.clipboardData.getData('text')
@@ -359,8 +357,11 @@
 			@updatePrompt(false)
 			@clearStatus()
 			# @hideInsertion()
-		.focus =>
-			@updatePrompt(true)
+		.focus (e)=>
+			# prevent caret being eaten
+			setTimeout =>
+				@updatePrompt(true)
+			, 0
 			@update()
 			@clearStatus()
 
