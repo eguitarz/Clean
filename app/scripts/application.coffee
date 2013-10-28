@@ -4,6 +4,9 @@
 
 @Clean.ApplicationView = Ember.View.extend
   classNames: ['appl-view']
+  debug: (=>
+    @Clean.DEBUG
+  ).property()
   didInsertElement: =>
   	@Clean.editor.init()
 
@@ -21,7 +24,9 @@ Ember.TEMPLATES.application = Ember.Handlebars.compile '
   <div class="content">
       <div class="flex-container">
           <div id="editor" contentEditable="true"></div>
-          <div id="debug"></div>
+          {{#if view.debug}}
+            <div id="debug"></div>
+          {{/if}}
       </div>
       <div id="tooltip" class="hidden">
         <ul class="left-panel">
