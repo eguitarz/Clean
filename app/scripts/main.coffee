@@ -3,6 +3,7 @@
 
 @Clean = Ember.Application.create
   LOG_TRANSITIONS: true
+  DEBUG: false
   rootElement: '#application'
 
 @Clean.editor = new Editor 
