@@ -141,7 +141,7 @@
 		top = Math.min startEl.offset().top, endEl.offset().top
 		left = ( startEl.offset().left + endEl.offset().left ) / 2
 		$('#toolpad').css 'top', top - 35
-		$('#toolpad').css 'left', left - 30
+		$('#toolpad').css 'left', left - 90
 	hideToolpad: ->
 		$('#toolpad').addClass 'hidden'
 		
@@ -173,9 +173,6 @@
 		$('body').delegate '#tooltip', 'mouseleave', (e)->
 			self.hideTooltip()
 
-		# $('body').delegate '#editor', 'click', (e)->
-		# 	$('#editor').focus()
-
 		# toolpad
 		$('body').delegate '#editor', 'mouseup', (e)=>
 			sel = @selection()
@@ -187,6 +184,10 @@
 					@saveSelection 'm'
 					@showToolpadOverSelection 'm'
 					@restoreSelection 'm'
+		$('#toolpad').delegate 'li:first-child', 'click', (e)->
+			$(@).addClass 'toggled'
+		$('#toolpad').delegate '.cancel', 'click', (e)->
+			$(@).removeClass 'toggled'
 
 	update: ->
 		self = @
