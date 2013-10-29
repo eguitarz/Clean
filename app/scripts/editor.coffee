@@ -193,9 +193,13 @@
 			if self.linkRange
 				a = document.createElement 'a'
 				a.setAttribute 'href', '#'
+				self.lastLinkElement = a
 				self.linkRange.surroundContents a
 		.delegate 'li:first-child', 'mouseenter', (e)->
 			self.linkRange = self.selection().getRangeAt 0
+		.delegate 'input', 'keydown', (e)->
+			if self.lastLinkElement
+				self.lastLinkElement.setAttribute 'href', $(@).val()
 
 		$('#toolpad').delegate '.cancel', 'click', (e)=>
 			@cancelLinkInput()
