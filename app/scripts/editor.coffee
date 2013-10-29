@@ -144,6 +144,9 @@
 		$('#toolpad').css 'left', left - 90
 	hideToolpad: ->
 		$('#toolpad').addClass 'hidden'
+		@restoreSelection 'link'
+	cancelLinkInput: ->
+		$('#toolpad li:first-child').removeClass 'toggled'
 		
 	delegateEvents: ()->
 		self = @
@@ -182,12 +185,15 @@
 					@hideToolpad()
 				else
 					@saveSelection 'm'
+					@saveSelection 'link'
 					@showToolpadOverSelection 'm'
 					@restoreSelection 'm'
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
 			$(@).addClass 'toggled'
-		$('#toolpad').delegate '.cancel', 'click', (e)->
-			$(@).removeClass 'toggled'
+			console.log self.selection().getRangeAt 0
+
+		$('#toolpad').delegate '.cancel', 'click', (e)=>
+			@cancelLinkInput()
 
 	update: ->
 		self = @
