@@ -145,7 +145,9 @@
 		@update()
 	hideToolpad: ->
 		$('#toolpad').addClass 'hidden'
-		@restoreSelection 'link'
+		$('#toolpad li:first-child').removeClass 'toggled'
+		@.lastLinkElement = null
+		@.linkRange = null
 	cancelLinkInput: ->
 		$('#toolpad li:first-child').removeClass 'toggled'
 		
