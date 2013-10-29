@@ -190,8 +190,12 @@
 					@restoreSelection 'toolpad'
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
 			$(@).addClass 'toggled'
+			if self.linkRange
+				a = document.createElement 'a'
+				a.setAttribute 'href', '#'
+				self.linkRange.surroundContents a
 		.delegate 'li:first-child', 'mouseenter', (e)->
-			@linkRange = self.selection().getRangeAt 0
+			self.linkRange = self.selection().getRangeAt 0
 
 		$('#toolpad').delegate '.cancel', 'click', (e)=>
 			@cancelLinkInput()
