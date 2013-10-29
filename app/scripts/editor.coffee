@@ -142,6 +142,7 @@
 		left = ( startEl.offset().left + endEl.offset().left ) / 2
 		$('#toolpad').css 'top', top - 35
 		$('#toolpad').css 'left', left - 90
+		@update()
 	hideToolpad: ->
 		$('#toolpad').addClass 'hidden'
 		@restoreSelection 'link'
@@ -184,10 +185,9 @@
 				if range.collapsed
 					@hideToolpad()
 				else
-					@saveSelection 'm'
-					@saveSelection 'link'
-					@showToolpadOverSelection 'm'
-					@restoreSelection 'm'
+					@saveSelection 'toolpad'
+					@showToolpadOverSelection 'toolpad'
+					@restoreSelection 'toolpad'
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
 			$(@).addClass 'toggled'
 			console.log self.selection().getRangeAt 0
