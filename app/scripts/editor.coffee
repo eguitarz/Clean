@@ -146,6 +146,10 @@
 		left = ( startEl.offset().left + endEl.offset().left ) / 2
 		$('#toolpad').css 'top', top - 35
 		$('#toolpad').css 'left', left - 90
+		el = @getSelectedElement()
+		if el.is 'a'
+			$('#toolpad input').attr 'href', el.val()
+			@openLinkInput()
 
 		@hideTooltip()
 		@status.showToolpad = true
