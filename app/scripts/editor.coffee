@@ -146,7 +146,7 @@
 		left = ( startEl.offset().left + endEl.offset().left ) / 2
 		$('#toolpad').css 'top', top - 35
 		$('#toolpad').css 'left', left - 90
-		@update()
+
 		@hideTooltip()
 		@status.showToolpad = true
 	hideToolpad: ->
@@ -155,6 +155,8 @@
 		@lastLinkElement = null
 		@linkRange = null
 		@status.showToolpad = false
+	openLinkInput: ->
+		$('#toolpad li:first-child').addClass 'toggled'
 	cancelLinkInput: ->
 		$('#toolpad li:first-child').removeClass 'toggled'
 		
@@ -198,7 +200,7 @@
 					@showToolpadOverSelection 'toolpad'
 					@restoreSelection 'toolpad'
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
-			$(@).addClass 'toggled'
+			self.openLinkInput()
 			if self.linkRange
 				a = document.createElement 'a'
 				a.setAttribute 'href', '#'
