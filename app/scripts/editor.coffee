@@ -11,6 +11,8 @@
 		new: true
 		connecting: false
 		changed: false
+		showToolpad: false
+		showTooltip: false
 	constructor: (options={})->
 		@id = options.id
 		@status.new = !@id
@@ -122,9 +124,11 @@
 			, durationInMilliseconds)()
 
 	showTooltip: ->
-		$('#tooltip').removeClass 'hidden'
+		$('#tooltip').removeClass 'hidden' unless @status.showToolpad
+		@status.showTooltip = true
 	hideTooltip: ->
 		$('#tooltip').addClass 'hidden'
+		@status.showTooltip = false
 	setTooltipTop: (top)->
 		$('#tooltip').css 'top', top
 	updateTooltipStatus: (jqel)->
@@ -143,11 +147,14 @@
 		$('#toolpad').css 'top', top - 35
 		$('#toolpad').css 'left', left - 90
 		@update()
+		@hideTooltip()
+		@status.showToolpad = true
 	hideToolpad: ->
 		$('#toolpad').addClass 'hidden'
 		$('#toolpad li:first-child').removeClass 'toggled'
-		@.lastLinkElement = null
-		@.linkRange = null
+		@lastLinkElement = null
+		@linkRange = null
+		@status.showToolpad = false
 	cancelLinkInput: ->
 		$('#toolpad li:first-child').removeClass 'toggled'
 		
