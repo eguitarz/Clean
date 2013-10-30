@@ -202,6 +202,8 @@
 		.delegate 'input', 'keydown', (e)->
 			if self.lastLinkElement
 				self.lastLinkElement.setAttribute 'href', $(@).val()
+			if e.keyCode == 13
+				self.hideToolpad()
 
 		$('#toolpad').delegate '.cancel', 'click', (e)=>
 			@cancelLinkInput()
