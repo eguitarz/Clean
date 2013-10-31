@@ -361,6 +361,7 @@
 	bindEditorEvents: ->
 		$('#editor').on 'keydown', (e)=>
 			@hideTooltip()
+			@hideToolpad()
 			@checkNew() if @status.new
 			@handleKeyDown(e)
 			@update()
