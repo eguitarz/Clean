@@ -244,7 +244,7 @@
 					range = document.createRange()
 					range.selectNode node[0]
 					self.linkRange = range
-				self.applyOrCancelUrl self.linkRange, $(@).val()
+				self.applyOrCancelUrl self.linkRange, '' unless $(@).val()
 
 	update: ->
 		self = @
