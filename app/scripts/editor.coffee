@@ -167,7 +167,7 @@
 		
 	delegateEvents: ()->
 		self = @
-		$('#editor').delegate '> h1,h2,p,pre,code,figure', 'mouseenter', (e)->
+		$('#editor').delegate '> h1,h2,p,pre,code,figure', 'mousemove', (e)->
 			return if self.status.empty || self.status.new
 			$(@).addClass('hovered').siblings().removeClass('hovered')
 			parentOffset = $(@).parent().offset()
