@@ -208,13 +208,13 @@
 			sel = @selection()
 			if sel.rangeCount > 0
 				range = sel.getRangeAt 0
-				if range.collapsed
-					@hideToolpad()
-				else
+				if !range.collapsed || @getSelectedElement().is 'a'
 					@saveSelection 'toolpad'
 					@showToolpadOverSelection 'toolpad'
 					@restoreSelection 'toolpad'
 					self.linkRange = self.selection().getRangeAt 0
+				else
+					@hideToolpad()
 		# apply link URL
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
 			self.openLinkInput()
