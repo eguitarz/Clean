@@ -203,21 +203,25 @@
 					@saveSelection 'toolpad'
 					@showToolpadOverSelection 'toolpad'
 					@restoreSelection 'toolpad'
+		# apply link URL
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
 			self.openLinkInput()
-			if self.linkRange
-				a = document.createElement 'a'
-				a.setAttribute 'href', '#'
-				self.lastLinkElement = a
-				self.linkRange.surroundContents a
+			# if self.linkRange
+			# a = document.createElement 'a'
+			# a.setAttribute 'href', '#'
+			# self.lastLinkElement = a
+			# self.linkRange.surroundContents a
+			# document.execCommand('createlink', '#')
 		.delegate 'li:first-child', 'mouseenter', (e)->
 			self.linkRange = self.selection().getRangeAt 0
 		.delegate 'input', 'keydown', (e)->
-			if self.lastLinkElement
-				self.lastLinkElement.setAttribute 'href', $(@).val()
+				# self.lastLinkElement.setAttribute 'href', $(@).val()
 			if e.keyCode == 13
+				if self.linkRange
+					self.selection().removeAllRanges()
+					self.selection().addRange self.linkRange
+					document.execCommand('createlink', false, $(@).val())
 				self.hideToolpad()
-
 		$('#toolpad').delegate '.cancel', 'click', (e)=>
 			@cancelLinkInput()
 
