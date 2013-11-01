@@ -216,7 +216,9 @@
 
 		# toolpad
 		$('body').delegate '#editor', 'mouseup', (e)=>
-			@detectToShowToolpad()
+			setTimeout =>
+				@detectToShowToolpad()
+			, 0
 		# apply link URL
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
 			self.openLinkInput()
