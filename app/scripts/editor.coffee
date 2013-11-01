@@ -218,7 +218,11 @@
 				if self.linkRange
 					self.selection().removeAllRanges()
 					self.selection().addRange self.linkRange
-					document.execCommand('createlink', false, $(@).val())
+					url = $(@).val()
+					if url
+						document.execCommand('createlink', false, url)
+					else 
+						document.execCommand('unlink', false)
 				self.hideToolpad()
 		$('#toolpad').delegate '.cancel', 'click', (e)=>
 			@cancelLinkInput()
