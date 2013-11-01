@@ -164,6 +164,13 @@
 		$('#toolpad li:first-child').addClass 'toggled'
 	cancelLinkInput: ->
 		$('#toolpad li:first-child').removeClass 'toggled'
+	applyOrCancelUrl: (range, url)->
+		@selection().removeAllRanges()
+		@selection().addRange range
+		if url
+			document.execCommand('createlink', false, url)
+		else 
+			document.execCommand('unlink', false)
 		
 	delegateEvents: ()->
 		self = @
@@ -216,13 +223,7 @@
 				# self.lastLinkElement.setAttribute 'href', $(@).val()
 			if e.keyCode == 13
 				if self.linkRange
-					self.selection().removeAllRanges()
-					self.selection().addRange self.linkRange
-					url = $(@).val()
-					if url
-						document.execCommand('createlink', false, url)
-					else 
-						document.execCommand('unlink', false)
+					self.applyOrCancelUrl self.linkRange, $(@).val()
 				self.hideToolpad()
 		$('#toolpad').delegate '.cancel', 'click', (e)=>
 			@cancelLinkInput()
