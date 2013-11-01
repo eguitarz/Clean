@@ -148,7 +148,7 @@
 		$('#toolpad').css 'left', left - 90
 		el = @getSelectedElement()
 		if el.is 'a'
-			$('#toolpad input').attr 'href', el.val()
+			$('#toolpad input').val el.attr('href')
 			@openLinkInput()
 
 		@hideTooltip()
@@ -158,6 +158,7 @@
 		$('#toolpad li:first-child').removeClass 'toggled'
 		@lastLinkElement = null
 		@linkRange = null
+		$('#toolpad input').val ''
 		@status.showToolpad = false
 	openLinkInput: ->
 		$('#toolpad li:first-child').addClass 'toggled'
@@ -205,11 +206,12 @@
 					@saveSelection 'toolpad'
 					@showToolpadOverSelection 'toolpad'
 					@restoreSelection 'toolpad'
+					self.linkRange = self.selection().getRangeAt 0
 		# apply link URL
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
 			self.openLinkInput()
-		.delegate 'li:first-child', 'mouseenter', (e)->
-			self.linkRange = self.selection().getRangeAt 0
+		# .delegate 'li:first-child', 'mouseenter', (e)->
+		# 	self.linkRange = self.selection().getRangeAt 0
 		.delegate 'input', 'keydown', (e)->
 				# self.lastLinkElement.setAttribute 'href', $(@).val()
 			if e.keyCode == 13
