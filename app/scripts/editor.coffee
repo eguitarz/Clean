@@ -138,6 +138,17 @@
 				btn.addClass 'toggled'
 			else
 				btn.removeClass 'toggled'
+	detectToShowToolpad: ->
+		sel = @selection()
+		if sel.rangeCount > 0
+			range = sel.getRangeAt 0
+			if !range.collapsed || @getSelectedElement().is 'a'
+				@saveSelection 'toolpad'
+				@showToolpadOverSelection 'toolpad'
+				@restoreSelection 'toolpad'
+				@linkRange = @selection().getRangeAt 0
+			else
+				@hideToolpad()
 	showToolpadOverSelection: (prefix='m')->
 		$('#toolpad').removeClass 'hidden'
 		startEl = $('#'+prefix+'Start')
@@ -205,16 +216,7 @@
 
 		# toolpad
 		$('body').delegate '#editor', 'mouseup', (e)=>
-			sel = @selection()
-			if sel.rangeCount > 0
-				range = sel.getRangeAt 0
-				if !range.collapsed || @getSelectedElement().is 'a'
-					@saveSelection 'toolpad'
-					@showToolpadOverSelection 'toolpad'
-					@restoreSelection 'toolpad'
-					self.linkRange = self.selection().getRangeAt 0
-				else
-					@hideToolpad()
+			@detectToShowToolpad()
 		# apply link URL
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
 			self.openLinkInput()
