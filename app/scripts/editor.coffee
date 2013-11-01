@@ -206,12 +206,6 @@
 		# apply link URL
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
 			self.openLinkInput()
-			# if self.linkRange
-			# a = document.createElement 'a'
-			# a.setAttribute 'href', '#'
-			# self.lastLinkElement = a
-			# self.linkRange.surroundContents a
-			# document.execCommand('createlink', '#')
 		.delegate 'li:first-child', 'mouseenter', (e)->
 			self.linkRange = self.selection().getRangeAt 0
 		.delegate 'input', 'keydown', (e)->
