@@ -219,6 +219,11 @@
 			setTimeout =>
 				@detectToShowToolpad()
 			, 0
+		$('body').delegate '#editor', 'keydown', (e)=>
+			if e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40
+				setTimeout =>
+					@detectToShowToolpad()
+				, 0
 		# apply link URL
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
 			self.openLinkInput()
