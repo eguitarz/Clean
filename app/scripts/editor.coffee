@@ -235,8 +235,9 @@
 				if self.linkRange
 					self.applyOrCancelUrl self.linkRange, $(@).val()
 				self.hideToolpad()
-		$('#toolpad').delegate '.cancel', 'click', (e)=>
-			@cancelLinkInput()
+		$('#toolpad').delegate '.cancel', 'click', (e)->
+			self.cancelLinkInput()
+			self.applyOrCancelUrl self.linkRange, $(@).val() if self.linkRange
 
 	update: ->
 		self = @
