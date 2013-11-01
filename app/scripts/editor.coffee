@@ -147,6 +147,9 @@
 				@showToolpadOverSelection 'toolpad'
 				@restoreSelection 'toolpad'
 				@linkRange = @selection().getRangeAt 0
+				unless @getSelectedElement().is 'a'
+					@applyOrCancelUrl @linkRange, '#'
+					@linkRange = @selection().getRangeAt 0
 			else
 				@hideToolpad()
 	showToolpadOverSelection: (prefix='m')->
@@ -177,6 +180,7 @@
 	cancelLinkInput: ->
 		$('#toolpad li:first-child').removeClass 'toggled'
 	applyOrCancelUrl: (range, url)->
+		console.log 'applyOrCancelUrl'
 		@selection().removeAllRanges()
 		@selection().addRange range
 		if url
@@ -237,7 +241,8 @@
 				self.hideToolpad()
 		$('#toolpad').delegate '.cancel', 'click', (e)->
 			self.cancelLinkInput()
-			self.applyOrCancelUrl self.linkRange, $(@).val() if self.linkRange
+			if self.linkRange
+				self.applyOrCancelUrl self.linkRange, $(@).val()
 
 	update: ->
 		self = @
