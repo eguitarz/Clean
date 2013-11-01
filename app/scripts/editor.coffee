@@ -162,6 +162,7 @@
 		@status.showToolpad = false
 	openLinkInput: ->
 		$('#toolpad li:first-child').addClass 'toggled'
+		$('#toolpad input').focus()
 	cancelLinkInput: ->
 		$('#toolpad li:first-child').removeClass 'toggled'
 	applyOrCancelUrl: (range, url)->
