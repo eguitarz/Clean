@@ -177,7 +177,6 @@
 	cancelLinkInput: ->
 		$('#toolpad li:first-child').removeClass 'toggled'
 	applyOrCancelUrl: (range, url)->
-		console.log 'applyOrCancelUrl'
 		@selection().removeAllRanges()
 		@selection().addRange range
 		if url
@@ -239,6 +238,12 @@
 		$('#toolpad').delegate '.cancel', 'click', (e)->
 			self.cancelLinkInput()
 			if self.linkRange
+				node = self.linkRange.commonAncestorContainer
+				if node.nodeType == 3
+					node = $(node).parent('a')
+					range = document.createRange()
+					range.selectNode node[0]
+					self.linkRange = range
 				self.applyOrCancelUrl self.linkRange, $(@).val()
 
 	update: ->
