@@ -191,6 +191,8 @@
 			self.updateTooltipStatus $('.hovered')
 		$('body').delegate '#tooltip', 'mouseleave', (e)->
 			self.hideTooltip()
+		$('body').delegate '.content', 'mouseleave', (e)->
+			self.hideTooltip()
 
 		# toolpad
 		$('body').delegate '#editor', 'mouseup', (e)=>
