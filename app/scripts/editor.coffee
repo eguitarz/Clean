@@ -147,9 +147,6 @@
 				@showToolpadOverSelection 'toolpad'
 				@restoreSelection 'toolpad'
 				@linkRange = @selection().getRangeAt 0
-				unless @getSelectedElement().is 'a'
-					@applyOrCancelUrl @linkRange, '#'
-					@linkRange = @selection().getRangeAt 0
 			else
 				@hideToolpad()
 	showToolpadOverSelection: (prefix='m')->
