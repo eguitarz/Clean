@@ -1,4 +1,5 @@
 @Editor = class Editor
+	## PROPERTIES ##
 	titlePromptMessage: 'New title'
 	promptMessage: 'Type your article here'
 	status:
@@ -13,6 +14,7 @@
 		changed: false
 		showToolpad: false
 		showTooltip: false
+	## INITIALIZERS AND ACCESSORS ##
 	constructor: (options={})->
 		@id = options.id
 		@status.new = !@id
@@ -39,6 +41,9 @@
 		@status.changed = bool
 	setNew: (bool)->
 		@status.new = bool
+	## UI RELATED OPERATIONS ##
+	## RANGE OPERATIONS ##
+	## EVENT BINDINGS ##
 	displayPrompt: ->
 		$('#editor').children().first().html '<span class="prompt">'+@promptMessage+'</span>'
 	displayTitlePrompt: ->
