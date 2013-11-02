@@ -253,23 +253,7 @@
 			@hideTooltip()
 		$('body').delegate '.content', 'mouseleave', (e)=>
 			@hideTooltip()
-	# delegateEditorToolpadEvents: ()->
-	delegateEditorEvents: ()->
-		self = @
-		$('#editor').delegate '> h1,h2,p,pre,code,figure', 'mousemove', (e)->
-			return if self.status.empty || self.status.new
-			$(@).addClass('hovered').siblings().removeClass('hovered')
-			parentOffset = $(@).parent().offset()
-			thisOffset = $(@).offset()
-			height = $(@).outerHeight()
-
-			self.updateTooltipStatus $(@)
-			self.showTooltip()
-			self.setTooltipTop thisOffset.top - parentOffset.top
-		.delegate '> h1,h2,p,pre,code,figure', 'mouseleave', (e)->
-			self.update()
-
-		# toolpad
+	delegateEditorToolpadEvents: ()->
 		$('body').delegate '#editor', 'mouseup', (e)=>
 			setTimeout =>
 				@detectToShowToolpad()
@@ -300,6 +284,20 @@
 					range.selectNode node[0]
 					self.linkRange = range
 				self.applyOrCancelUrl self.linkRange, '' unless $(@).val()
+	delegateEditorEvents: ()->
+		self = @
+		$('#editor').delegate '> h1,h2,p,pre,code,figure', 'mousemove', (e)->
+			return if self.status.empty || self.status.new
+			$(@).addClass('hovered').siblings().removeClass('hovered')
+			parentOffset = $(@).parent().offset()
+			thisOffset = $(@).offset()
+			height = $(@).outerHeight()
+
+			self.updateTooltipStatus $(@)
+			self.showTooltip()
+			self.setTooltipTop thisOffset.top - parentOffset.top
+		.delegate '> h1,h2,p,pre,code,figure', 'mouseleave', (e)->
+			self.update()		
 	handleTitleKeyDown: (e)->
 		switch e.keyCode
 			when 13
