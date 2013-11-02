@@ -254,6 +254,7 @@
 		$('body').delegate '.content', 'mouseleave', (e)=>
 			@hideTooltip()
 	delegateEditorToolpadEvents: ()->
+		self = @
 		$('body').delegate '#editor', 'mouseup', (e)=>
 			setTimeout =>
 				@detectToShowToolpad()
@@ -266,10 +267,7 @@
 		# apply link URL
 		$('#toolpad').delegate 'li:first-child', 'click', (e)->
 			self.openLinkInput()
-		# .delegate 'li:first-child', 'mouseenter', (e)->
-		# 	self.linkRange = self.selection().getRangeAt 0
 		.delegate 'input', 'keydown', (e)->
-				# self.lastLinkElement.setAttribute 'href', $(@).val()
 			if e.keyCode == 13
 				if self.linkRange
 					self.applyOrCancelUrl self.linkRange, $(@).val()
@@ -434,3 +432,4 @@
 		# dynamic events
 		@delegateEditorEvents()
 		@delegateEditorTooltipEvents()
+		@delegateEditorToolpadEvents()
