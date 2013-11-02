@@ -3,7 +3,7 @@
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>Clean</title>
@@ -15,49 +15,48 @@
     <!-- build:css styles/cleaneditor.css -->
     <link rel="stylesheet" href="styles/screen.css">
     <!-- endbuild -->
-  </head>
-  <body>
+</head>
+<body>
     <!--[if lt IE 7]>
       <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-    <![endif]-->
+      <![endif]-->
 
-    <!-- Add your site or application content here -->
-    <header>Clean Editor</header>
-    <div id="status-bar">
-        <div class="debug-status ctrl hidden">ctrl</div>
-        <div class="debug-status alt hidden">alt</div>
-        <div class="debug-status shift hidden">shift</div>
-        <div class="debug-status cmd hidden">cmd</div>
-        <div id="debug-keyup"></div>
-        <div id="debug-keydown"></div>
-    </div>
-    <div id="editor-title" contentEditable="true"></div>
-    <div class="content">
+      <!-- Add your site or application content here -->
+      <header>Clean Editor</header>
+      <div id="status-bar">
+          <div class="debug-status ctrl hidden">ctrl</div>
+          <div class="debug-status alt hidden">alt</div>
+          <div class="debug-status shift hidden">shift</div>
+          <div class="debug-status cmd hidden">cmd</div>
+          <div id="debug-keyup"></div>
+          <div id="debug-keydown"></div>
+      </div>
+      <div id="editor-title" contentEditable="true"></div>
+      <div class="content">
         <div class="flex-container">
             <div id="editor" contentEditable="true"></div>
             <div id="debug"></div>
         </div>
-        <div id="insertion" class=" hidden">
-            <div class="expand-area">
-                <div class="toolbar">
-                    <div class="btn btn-image">Image</div>
-                    <div class="link">
-                        <input type="text" />
-                        <div class="btn btn-cancel">X</div>
-                    </div>
-                </div>
-            </div>
-            <div class="btn btn-add">+</div>
-        </div>
-    </div>
+        <div id="tooltip" class="hidden">
+            <ul class="left-panel">
+              <li>H1</li>
+              <li>H2</li>
+              <li>Q</li>
+          </ul>
+          <ul class="right-panel">
+              <li>+ Append image</li>
+          </ul>
+      </div>
+  </div>
+  <ul id="toolpad" class="hidden"><li>link</li><li class="non-clickable"><span class="btn cancel">X</span> <input tabindex="-1"></li></ul>
 
-    <!-- build:js scripts/cleaneditor.js -->
-    <script src="vendor/jquery-1.9.1.js"></script>
-    <script src="scripts/command.js"></script>
-    <script src="scripts/pastefix.js"></script>
-    <script src="scripts/string.js"></script>
-    <script src="scripts/editor.js"></script>
-    <script src="scripts/main.js"></script>
-    <!-- endbuild -->
-  </body>
+  <!-- build:js scripts/cleaneditor.js -->
+  <script src="vendor/jquery-1.9.1.js"></script>
+  <script src="scripts/command.js"></script>
+  <script src="scripts/pastefix.js"></script>
+  <script src="scripts/string.js"></script>
+  <script src="scripts/editor.js"></script>
+  <script src="scripts/main.js"></script>
+  <!-- endbuild -->
+</body>
 </html>
