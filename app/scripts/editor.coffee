@@ -1,4 +1,5 @@
 @Editor = class Editor
+
 	## PROPERTIES ##
 	titlePromptMessage: 'New title'
 	promptMessage: 'Type your article here'
@@ -14,6 +15,7 @@
 		changed: false
 		showToolpad: false
 		showTooltip: false
+
 	## INITIALIZERS AND ACCESSORS ##
 	constructor: (options={})->
 		@id = options.id
@@ -41,6 +43,7 @@
 		@status.changed = bool
 	setNew: (bool)->
 		@status.new = bool
+
 	## HELPERS ##
 	assignNameAttribute: (jqel)->
 		jqel.attr 'name', @rand()
@@ -48,43 +51,10 @@
 		result = ''
 		result += Math.random().toString(36).substr(2,1) for i in new Array(len)
 		result.toUpperCase()
-	## UI RELATED OPERATIONS ##
-	## RANGE OPERATIONS ##
-	## EVENT BINDINGS ##
-	displayPrompt: ->
-		$('#editor').children().first().html '<span class="prompt">'+@promptMessage+'</span>'
-	displayTitlePrompt: ->
-		$('#editor-title').html '<span class="prompt">'+@titlePromptMessage+'</span>'
-	clear: ->
-		$('#editor').children().first().html('<br>')
-	clearTitle: ->
-		$('#editor-title').html ''
-	clearStatus: ->
-		$('.debug-status').addClass 'hidden'
-		@status.cmd = @status.ctrl = @status.alt = @status.shift = false
-	cleanAttributes: (el)->
-		attributes = $.map el.attributes, (item)->
-			item.name
-		$.each attributes, (i, key)=>
-			$(@).removeAttr(key)
-	divsToPs: ->
-		#transform divs to ps
-		@saveSelection()
-		$('#editor div').not('[name]').each ->
-			el = $('<p>')
-			el.html $(@).html()
-			$(@).after(el)
-			$(@).remove()
-		@restoreSelection()
-	
-	detectChanged: ->
-			title = $('#editor-title').html()
-			content = $('#editor').html()
-			if @lastTitle != title || @lastContent != content
-				@setChanged true
-				@lastTitle = title
-				@lastContent = content
 
+	## UI RELATED OPERATIONS ##
+	
+	## RANGE OPERATIONS ##
 	selection: ->
 		window.getSelection() if window.getSelection
 	saveSelection: (prefix='cursor')->
@@ -120,6 +90,42 @@
 	getSelectedElement: ->
 		el = $(@selection().getRangeAt(0).commonAncestorContainer)
 		return if el[0].nodeType == 3 then el.parent() else el
+	
+	## EVENT BINDINGS ##
+	displayPrompt: ->
+		$('#editor').children().first().html '<span class="prompt">'+@promptMessage+'</span>'
+	displayTitlePrompt: ->
+		$('#editor-title').html '<span class="prompt">'+@titlePromptMessage+'</span>'
+	clear: ->
+		$('#editor').children().first().html('<br>')
+	clearTitle: ->
+		$('#editor-title').html ''
+	clearStatus: ->
+		$('.debug-status').addClass 'hidden'
+		@status.cmd = @status.ctrl = @status.alt = @status.shift = false
+	cleanAttributes: (el)->
+		attributes = $.map el.attributes, (item)->
+			item.name
+		$.each attributes, (i, key)=>
+			$(@).removeAttr(key)
+	divsToPs: ->
+		#transform divs to ps
+		@saveSelection()
+		$('#editor div').not('[name]').each ->
+			el = $('<p>')
+			el.html $(@).html()
+			$(@).after(el)
+			$(@).remove()
+		@restoreSelection()
+	detectChanged: ->
+			title = $('#editor-title').html()
+			content = $('#editor').html()
+			if @lastTitle != title || @lastContent != content
+				@setChanged true
+				@lastTitle = title
+				@lastContent = content
+
+	
 
 	autosave: (durationInMilliseconds=5000)->
 		(update= =>
