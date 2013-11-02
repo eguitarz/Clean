@@ -239,7 +239,22 @@
 			document.execCommand('formatBlock', false, tag)
 		
 	## EVENT BINDINGS ##
-	delegateEvents: ()->
+	delegateEditorTooltipEvents: ()->
+		$('#tooltip').delegate '.left-panel li:nth-child(1)', 'click', (e)=>
+			@toggleFormatBlock $('.hovered'), 'h1'
+			@updateTooltipStatus $('.hovered')
+		$('#tooltip').delegate '.left-panel li:nth-child(2)', 'click', (e)=>
+			@toggleFormatBlock $('.hovered'), 'h2'
+			@updateTooltipStatus $('.hovered')
+		$('#tooltip').delegate '.left-panel li:nth-child(3)', 'click', (e)=>
+			@toggleFormatBlock $('.hovered'), 'pre'
+			@updateTooltipStatus $('.hovered')
+		$('body').delegate '#tooltip', 'mouseleave', (e)=>
+			@hideTooltip()
+		$('body').delegate '.content', 'mouseleave', (e)=>
+			@hideTooltip()
+	# delegateEditorToolpadEvents: ()->
+	delegateEditorEvents: ()->
 		self = @
 		$('#editor').delegate '> h1,h2,p,pre,code,figure', 'mousemove', (e)->
 			return if self.status.empty || self.status.new
@@ -253,21 +268,6 @@
 			self.setTooltipTop thisOffset.top - parentOffset.top
 		.delegate '> h1,h2,p,pre,code,figure', 'mouseleave', (e)->
 			self.update()
-
-		# tooltip functions
-		$('#tooltip').delegate '.left-panel li:nth-child(1)', 'click', (e)->
-			self.toggleFormatBlock $('.hovered'), 'h1'
-			self.updateTooltipStatus $('.hovered')
-		$('#tooltip').delegate '.left-panel li:nth-child(2)', 'click', (e)->
-			self.toggleFormatBlock $('.hovered'), 'h2'
-			self.updateTooltipStatus $('.hovered')
-		$('#tooltip').delegate '.left-panel li:nth-child(3)', 'click', (e)->
-			self.toggleFormatBlock $('.hovered'), 'pre'
-			self.updateTooltipStatus $('.hovered')
-		$('body').delegate '#tooltip', 'mouseleave', (e)->
-			self.hideTooltip()
-		$('body').delegate '.content', 'mouseleave', (e)->
-			self.hideTooltip()
 
 		# toolpad
 		$('body').delegate '#editor', 'mouseup', (e)=>
@@ -434,4 +434,5 @@
 			@clearStatus()
 
 		# dynamic events
-		@delegateEvents()
+		@delegateEditorEvents()
+		@delegateEditorTooltipEvents()
