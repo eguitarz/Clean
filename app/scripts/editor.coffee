@@ -51,6 +51,21 @@
 		result = ''
 		result += Math.random().toString(36).substr(2,1) for i in new Array(len)
 		result.toUpperCase()
+	detectContentsChanged: ->
+			title = $('#editor-title').html()
+			content = $('#editor').html()
+			if @lastTitle != title || @lastContent != content
+				@setChanged true
+				@lastTitle = title
+				@lastContent = content
+	autosave: (durationInMilliseconds=5000)->
+		(update= =>
+			setTimeout =>
+				if @id && @status.changed && !@status.connecting
+					@setChanged false
+					@autosaveCallback(@) if @autosaveCallback
+				update()
+			, durationInMilliseconds)()
 
 	## UI RELATED OPERATIONS ##
 	
@@ -117,23 +132,6 @@
 			$(@).after(el)
 			$(@).remove()
 		@restoreSelection()
-	detectContentsChanged: ->
-			title = $('#editor-title').html()
-			content = $('#editor').html()
-			if @lastTitle != title || @lastContent != content
-				@setChanged true
-				@lastTitle = title
-				@lastContent = content
-
-	autosave: (durationInMilliseconds=5000)->
-		(update= =>
-			setTimeout =>
-				if @id && @status.changed && !@status.connecting
-					@setChanged false
-					@autosaveCallback(@) if @autosaveCallback
-				update()
-			, durationInMilliseconds)()
-
 	showTooltip: ->
 		$('#tooltip').removeClass 'hidden' unless @status.showToolpad
 		@status.showTooltip = true
