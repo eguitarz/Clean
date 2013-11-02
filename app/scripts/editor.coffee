@@ -66,8 +66,13 @@
 					@autosaveCallback(@) if @autosaveCallback
 				update()
 			, durationInMilliseconds)()
-
-	## UI RELATED OPERATIONS ##
+	applyOrCancelUrl: (range, url)->
+		@selection().removeAllRanges()
+		@selection().addRange range
+		if url
+			document.execCommand('createlink', false, url)
+		else 
+			document.execCommand('unlink', false)
 	
 	## RANGE OPERATIONS ##
 	selection: ->
@@ -106,7 +111,7 @@
 		el = $(@selection().getRangeAt(0).commonAncestorContainer)
 		return if el[0].nodeType == 3 then el.parent() else el
 	
-	## EVENT BINDINGS ##
+	## UI RELATED OPERATIONS ##
 	displayPrompt: ->
 		$('#editor').children().first().html '<span class="prompt">'+@promptMessage+'</span>'
 	displayTitlePrompt: ->
@@ -185,14 +190,28 @@
 		$('#toolpad input').focus()
 	cancelLinkInput: ->
 		$('#toolpad li:first-child').removeClass 'toggled'
-	applyOrCancelUrl: (range, url)->
-		@selection().removeAllRanges()
-		@selection().addRange range
-		if url
-			document.execCommand('createlink', false, url)
-		else 
-			document.execCommand('unlink', false)
+	update: ->
+		self = @
+		# giving names
+		$('#editor p,h1,h2,pre').not('[name]').each ->
+			$(@).attr 'name', self.rand()
+		# remove undeletable empty elements
+		$('#editor').children().each ->
+			$(@).remove() if $(@).html() == ''
+		# debug
+		$('#debug').text $('#editor').html()
+	updateTitlePrompt: (clear)->
+		throw new Exception 'undefined args' if typeof clear == 'undefined'
+		@checkTitleEmpty()
+		if @status.titleEmpty
+			if clear then @clearTitle() else @displayTitlePrompt()
+	updatePrompt: (clear)->
+		throw new Exception 'undefined args' if typeof clear == 'undefined'
+		@checkEmpty()
+		if @status.empty
+			if clear then @clear() else @displayPrompt()
 		
+	## EVENT BINDINGS ##
 	delegateEvents: ()->
 		self = @
 		$('#editor').delegate '> h1,h2,p,pre,code,figure', 'mousemove', (e)->
@@ -255,26 +274,7 @@
 					self.linkRange = range
 				self.applyOrCancelUrl self.linkRange, '' unless $(@).val()
 
-	update: ->
-		self = @
-		# giving names
-		$('#editor p,h1,h2,pre').not('[name]').each ->
-			$(@).attr 'name', self.rand()
-		# remove undeletable empty elements
-		$('#editor').children().each ->
-			$(@).remove() if $(@).html() == ''
-		# debug
-		$('#debug').text $('#editor').html()
-	updateTitlePrompt: (clear)->
-		throw new Exception 'undefined args' if typeof clear == 'undefined'
-		@checkTitleEmpty()
-		if @status.titleEmpty
-			if clear then @clearTitle() else @displayTitlePrompt()
-	updatePrompt: (clear)->
-		throw new Exception 'undefined args' if typeof clear == 'undefined'
-		@checkEmpty()
-		if @status.empty
-			if clear then @clear() else @displayPrompt()
+	
 	checkNew: ->
 		if $('#editor').text().length > 5
 			@status.new = false
