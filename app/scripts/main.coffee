@@ -1,11 +1,6 @@
 'use strict'
 @Clean = @Clean || {}
 
-@Clean = Ember.Application.create
-  LOG_TRANSITIONS: true
-  DEBUG: false
-  rootElement: '#application'
-
 @Clean.editor = new Editor 
   newPostCallback: (editor)->
     editor.setConnecting true
@@ -28,3 +23,6 @@
       error: ->
         console.log 'unable to autosave'
         editor.setConnecting false
+
+$(document).ready =>
+  @Clean.editor.init()
