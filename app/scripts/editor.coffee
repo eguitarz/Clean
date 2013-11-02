@@ -36,7 +36,7 @@
 		@displayTitlePrompt() if @status.titleEmpty
 		@displayPrompt() if @status.empty
 		@bindEditorTitleEvents()
-		@bindEditorEvents()
+		@bindAllEvents()
 	setConnecting: (bool)->
 		@status.connecting = bool
 	setChanged: (bool)->
@@ -342,7 +342,6 @@
 	handleKeyUp: (e)->
 		# debug
 		$('#debug-keyup').text e.keyCode
-
 		switch e.keyCode
 			when 13
 				@divsToPs()
@@ -386,7 +385,7 @@
 				@updateTitlePrompt(true)
 			, 0
 
-	bindEditorEvents: ->
+	bindAllEvents: ->
 		$('#editor').on 'keydown', (e)=>
 			@hideTooltip()
 			@hideToolpad()
