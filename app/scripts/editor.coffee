@@ -210,6 +210,33 @@
 		@checkEmpty()
 		if @status.empty
 			if clear then @clear() else @displayPrompt()
+	checkNew: ->
+		if $('#editor').text().length > 5
+			@status.new = false
+			$('#editor').trigger 'newPostCallback'
+	checkTitleEmpty: ->
+		@status.titleEmpty = $('#editor-title').text() == '' || $('#editor-title').text() == @titlePromptMessage
+	checkEmpty: ->
+		@status.empty = $('#editor').text() == '' || $('#editor').text() == @promptMessage
+	toggleFormatBlock: (jqel, tag)->
+		if jqel.attr 'name'
+			@saveSelection()
+			if jqel.is tag
+				newEl = $('<p>').html jqel.html()
+				newEl.attr 'name', jqel.attr 'name'
+				newEl.attr 'class', jqel.attr 'class'
+				jqel.after(newEl)
+				jqel.remove()
+				@restoreSelection()
+			else
+				newEl = $("<#{tag}>").html jqel.html()
+				newEl.attr 'name', jqel.attr 'name'
+				newEl.attr 'class', jqel.attr 'class'
+				jqel.after(newEl)
+				jqel.remove()
+				@restoreSelection()
+		else
+			document.execCommand('formatBlock', false, tag)
 		
 	## EVENT BINDINGS ##
 	delegateEvents: ()->
@@ -273,35 +300,6 @@
 					range.selectNode node[0]
 					self.linkRange = range
 				self.applyOrCancelUrl self.linkRange, '' unless $(@).val()
-
-	
-	checkNew: ->
-		if $('#editor').text().length > 5
-			@status.new = false
-			$('#editor').trigger 'newPostCallback'
-	checkTitleEmpty: ->
-		@status.titleEmpty = $('#editor-title').text() == '' || $('#editor-title').text() == @titlePromptMessage
-	checkEmpty: ->
-		@status.empty = $('#editor').text() == '' || $('#editor').text() == @promptMessage
-	toggleFormatBlock: (jqel, tag)->
-		if jqel.attr 'name'
-			@saveSelection()
-			if jqel.is tag
-				newEl = $('<p>').html jqel.html()
-				newEl.attr 'name', jqel.attr 'name'
-				newEl.attr 'class', jqel.attr 'class'
-				jqel.after(newEl)
-				jqel.remove()
-				@restoreSelection()
-			else
-				newEl = $("<#{tag}>").html jqel.html()
-				newEl.attr 'name', jqel.attr 'name'
-				newEl.attr 'class', jqel.attr 'class'
-				jqel.after(newEl)
-				jqel.remove()
-				@restoreSelection()
-		else
-			document.execCommand('formatBlock', false, tag)
 	handleTitleKeyDown: (e)->
 		switch e.keyCode
 			when 13
