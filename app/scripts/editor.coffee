@@ -117,15 +117,13 @@
 			$(@).after(el)
 			$(@).remove()
 		@restoreSelection()
-	detectChanged: ->
+	detectContentsChanged: ->
 			title = $('#editor-title').html()
 			content = $('#editor').html()
 			if @lastTitle != title || @lastContent != content
 				@setChanged true
 				@lastTitle = title
 				@lastContent = content
-
-	
 
 	autosave: (durationInMilliseconds=5000)->
 		(update= =>
@@ -376,7 +374,7 @@
 		$('#editor-title').on 'keydown', (e)=>
 			@handleTitleKeyDown(e)
 		.on 'keyup', (e)=>
-			@detectChanged()
+			@detectContentsChanged()
 			@handleTitleKeyUp(e)
 		.on 'paste', (e)=>
 			self = @
@@ -404,7 +402,7 @@
 			@handleKeyDown(e)
 			@update()
 		.on 'keyup', (e)=>
-			@detectChanged()
+			@detectContentsChanged()
 			@handleKeyUp(e)
 			@update()
 			@checkEmpty()
