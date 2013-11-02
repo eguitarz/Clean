@@ -41,6 +41,13 @@
 		@status.changed = bool
 	setNew: (bool)->
 		@status.new = bool
+	## HELPERS ##
+	assignNameAttribute: (jqel)->
+		jqel.attr 'name', @rand()
+	rand: (len=4)->
+		result = ''
+		result += Math.random().toString(36).substr(2,1) for i in new Array(len)
+		result.toUpperCase()
 	## UI RELATED OPERATIONS ##
 	## RANGE OPERATIONS ##
 	## EVENT BINDINGS ##
@@ -69,12 +76,7 @@
 			$(@).after(el)
 			$(@).remove()
 		@restoreSelection()
-	assignNameAttribute: (jqel)->
-		jqel.attr 'name', @rand()
-	rand: (len=4)->
-		result = ''
-		result += Math.random().toString(36).substr(2,1) for i in new Array(len)
-		result.toUpperCase()
+	
 	detectChanged: ->
 			title = $('#editor-title').html()
 			content = $('#editor').html()
