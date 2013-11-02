@@ -418,7 +418,6 @@
 		.blur =>
 			@updatePrompt(false)
 			@clearStatus()
-			# @hideInsertion()
 		.focus (e)=>
 			# prevent caret being eaten
 			setTimeout =>
