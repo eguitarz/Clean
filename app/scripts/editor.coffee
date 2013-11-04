@@ -3,8 +3,6 @@
 	## PROPERTIES ##
 	titlePromptMessage: 'New title'
 	promptMessage: 'Type your article here'
-	savingMessage: 'Saving...'
-	savedMessage: 'Saved!'
 	status:
 		cmd: false
 		ctrl: false
