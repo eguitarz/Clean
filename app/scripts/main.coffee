@@ -21,10 +21,12 @@
       success: (data)->
         console.log 'autosave success'
         editor.setConnecting false
-        $('#server-status').text 'Saved!'
         setTimeout ->
-          $('#server-status').text ''
-        , 3000
+          $('#server-status').text 'Saved'
+          setTimeout ->
+            $('#server-status').text ''
+          , 3000
+        , 500
       error: ->
         $('#server-status').text ''
         console.log 'unable to autosave'
