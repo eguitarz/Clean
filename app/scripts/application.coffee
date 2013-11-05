@@ -12,7 +12,8 @@
 
 Ember.TEMPLATES.application = Ember.Handlebars.compile '
   <header>Clean Editor</header>
-      <div id="status-bar">
+  <div id="server-status"></div>
+  <div id="status-bar">
       <div class="debug-status ctrl hidden">ctrl</div>
       <div class="debug-status alt hidden">alt</div>
       <div class="debug-status shift hidden">shift</div>
