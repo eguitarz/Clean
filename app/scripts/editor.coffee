@@ -249,6 +249,8 @@
 		$('#tooltip').delegate '.left-panel li:nth-child(3)', 'click', (e)=>
 			@toggleFormatBlock $('.hovered'), 'pre'
 			@updateTooltipStatus $('.hovered')
+		$('#tooltip').delegate '.right-panel li:nth-child(1)', 'click', (e)=>
+			console.log 'append image'
 		$('body').delegate '#tooltip', 'mouseleave', (e)=>
 			@hideTooltip()
 		$('body').delegate '.content', 'mouseleave', (e)=>
