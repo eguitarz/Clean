@@ -250,7 +250,7 @@
 			@toggleFormatBlock $('.hovered'), 'pre'
 			@updateTooltipStatus $('.hovered')
 		$('#tooltip').delegate '.right-panel li:nth-child(1)', 'click', (e)=>
-			console.log 'append image'
+			$('#image-file').click()
 		$('body').delegate '#tooltip', 'mouseleave', (e)=>
 			@hideTooltip()
 		$('body').delegate '.content', 'mouseleave', (e)=>
