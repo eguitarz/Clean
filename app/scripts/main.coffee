@@ -31,6 +31,19 @@
         $('#server-status').text ''
         console.log 'unable to autosave'
         editor.setConnecting false
+  imageCallback: (editor)->
+    editor.setConnecting true
+    $.ajax
+      url: 'http://localhost:3000'
+      success: (data)->
+        console.log 'upload success'
+        editor.setConnecting false
+        setTimeout ->
+          $('#server-status').text 'Saved'
+          setTimeout ->
+            $('#server-status').text ''
+          , 3000
+        , 500
 
 $(document).ready =>
   @Clean.editor.init()
