@@ -36,8 +36,11 @@
     $.ajax
       url: 'http://localhost:3000'
       success: (data)->
-        console.log 'upload success'
+        console.log 'image upload success'
         editor.setConnecting false
+        # append image to editor
+          $('hovered').append(data)
+
         setTimeout ->
           $('#server-status').text 'Saved'
           setTimeout ->
