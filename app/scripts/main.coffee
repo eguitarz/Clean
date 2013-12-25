@@ -39,7 +39,7 @@
         console.log 'image upload success'
         editor.setConnecting false
         # append image to editor
-          $('hovered').append('<img src="'+data+'">')
+          $('.hovered').append('<img src="'+data+'">')
 
         setTimeout ->
           $('#server-status').text 'Saved'
